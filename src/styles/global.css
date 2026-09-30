@@ -1,0 +1,144 @@
+/* ==========================================================================
+   Gaya dasar & komponen yang dipakai di banyak halaman.
+   Gaya khusus satu komponen ada di file .astro komponen itu sendiri.
+   Tampilan mobile: @media (max-width: 767px), sesuai frame Figma 375px.
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 24px; }
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--c-text);
+  background: var(--c-bg);
+  /* viewport-fit=cover: jauhkan isi dari poni/notch HP saat layar miring */
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Tema gelap: langit berbintang di belakang seluruh halaman (public/theme, dibuat oleh
+   source-files/scripts/make-star-background.py). Lapisan fixed agar bintang diam saat menggulir. */
+:root[data-theme="dark"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: #000 url("/theme/stars.webp") 0 0 / 1440px auto repeat;
+  opacity: 0.2;                /* bintang diredupkan agar tidak mengganggu teks */
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  :root[data-theme="dark"] body::before { background-image: url("/theme/stars-still.webp"); }
+}
+/* HP: ruang untuk menu bawah (SiteHeader .tabbar) agar footer tidak tertutup */
+@media (max-width: 767px) {
+  body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
+}
+h1, h2, h3, h4, p, ul, ol, dl, dd, figure { margin: 0; }
+ul, ol { padding: 0; }
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; }
+
+:focus-visible { outline: 2px solid var(--c-link); outline-offset: 3px; border-radius: 2px; }
+
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: -60px;
+  z-index: 100;
+  padding: 10px 16px;
+  background: var(--c-text);
+  color: var(--c-bg);
+  border-radius: 4px;
+}
+.skip-link:focus { top: 12px; }
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Layout ---------- */
+.container { width: min(var(--container), 100% - 2 * var(--gutter)); margin-inline: auto; }
+.container--wide { width: min(var(--container-wide), 100% - 2 * var(--gutter)); margin-inline: auto; }
+
+.section { padding: 56px 0 8px; }
+.section-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.page { padding: 56px 0 40px; }
+
+/* ---------- Tipografi ---------- */
+.page-title { font-size: 44px; line-height: 58px; font-weight: 700; }
+.section-title { font-size: 26px; line-height: 34px; font-weight: 500; }
+.lead { font-size: 18px; line-height: 30px; }
+.muted { color: var(--c-muted); }
+.label-sm { font-size: 14px; line-height: 20px; font-weight: 500; color: var(--c-muted); }
+.measure { max-width: 68ch; }
+
+/* ---------- Tombol & link ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 24px;
+  border: 0;
+  border-radius: 2px;
+  background: var(--c-primary);
+  color: var(--c-white);
+  font-size: 18px;
+  line-height: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: filter 0.15s;
+}
+.btn:hover { filter: brightness(0.94); }
+.btn--outline { background: transparent; color: var(--c-text); box-shadow: inset 0 0 0 1px var(--c-text); }
+.btn--outline:hover { filter: none; background: var(--c-soft); }
+
+.link { color: var(--c-link); text-underline-offset: 3px; }
+.link:hover { text-decoration: underline; }
+
+/* ---------- Chip & poin ---------- */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  padding: 5px 12px;
+  border: 1px solid var(--c-line);
+  border-radius: 16px;
+  font-size: 15px;
+  line-height: 20px;
+}
+.bullets { display: flex; flex-direction: column; gap: 8px; padding-left: 1.1em; }
+.bullets li::marker { color: var(--c-muted); }
+
+/* ---------- Kotak ajakan ---------- */
+.talk-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 40px;
+  background: var(--c-soft);
+  border-radius: 4px;
+}
+.talk-box__text { font-size: 28px; line-height: 38px; font-weight: 500; }
+
+@media (max-width: 767px) {
+  .section { padding: 40px 0 8px; }
+  .page { padding: 16px 0 40px; }
+  .page-title { font-size: 32px; line-height: 42px; }
+  .section-title { font-size: 22px; line-height: 34px; }
+  .page .lead { font-size: 16px; line-height: 26px; }
+  .btn { padding: 12px 18px; font-size: 16px; }
+  .chip { font-size: 14px; }
+  .talk-box { padding: 28px 20px; }
+  .talk-box__text { font-size: 22px; line-height: 30px; }
+}

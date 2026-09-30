@@ -1,0 +1,125 @@
+---
+import ProjectLayout from "../../layouts/ProjectLayout.astro";
+import Row from "../../components/Row.astro";
+import Showcase from "../../components/Showcase.astro";
+import ZoomImage from "../../components/ZoomImage.astro";
+import { getCase } from "../../data/design";
+
+import poster from "../../assets/images/design/ragam-rubber/poster-custom-parts.webp";
+import raw from "../../assets/images/design/ragam-rubber/raw-ferrule.jpg";
+import postPtfe from "../../assets/images/design/ragam-rubber/post-ferrule-ptfe.jpg";
+import postDiaphragm from "../../assets/images/design/ragam-rubber/post-diaphragm.jpg";
+import postGasket from "../../assets/images/design/ragam-rubber/post-gasket-viton.jpg";
+import postSilicone from "../../assets/images/design/ragam-rubber/post-ferrule-silicone.jpg";
+import postValve from "../../assets/images/design/ragam-rubber/post-butterfly-valve.jpg";
+import postEpdm from "../../assets/images/design/ragam-rubber/post-ferrule-epdm.jpg";
+import logoBanner from "../../assets/images/design/ragam-rubber/logo-banner.jpg";
+import logoBlack from "../../assets/images/design/ragam-rubber/logo-on-black.jpg";
+import store from "../../assets/images/design/ragam-rubber/marketplace-store.jpg";
+import card from "../../assets/images/design/ragam-rubber/contact-card.jpg";
+
+const { current, next } = getCase("ragam-rubber");
+const posts = [
+  { image: postDiaphragm, title: "Diaphragm, PTFE and EPDM" },
+  { image: postPtfe, title: "Ferrule seal, PTFE" },
+  { image: postGasket, title: "Heat exchanger gasket, Viton" },
+  { image: postSilicone, title: "Ferrule seal, silicone" },
+  { image: postValve, title: "Butterfly valve seal" },
+  { image: postEpdm, title: "Ferrule seal, EPDM 4 inch" },
+];
+const third = "(max-width: 767px) 50vw, 360px";
+const half = "(max-width: 767px) 100vw, 550px";
+---
+
+<ProjectLayout
+  name="Ragam Rubber"
+  description="Logo, product post system, catalog, poster and marketplace banner for an industrial seal and gasket supplier in Jakarta."
+  year={current.year}
+  tags={current.tags}
+  facts={[
+    { label: "Client", value: "Industrial seal supplier, Jakarta" },
+    { label: "Role", value: "Brand and content designer" },
+    { label: "Delivered", value: "Logo, posts, catalog, poster" },
+    { label: "Channels", value: "Marketplace, WhatsApp, social" },
+  ]}
+  back={{ href: "/design/", label: "Back to design work" }}
+  next={{ href: `/design/${next.slug}/`, name: next.name }}
+  ogImage={postPtfe.src}
+>
+  <div slot="hero" class="container--wide project__hero">
+    <ZoomImage image={poster} alt="Ragam Rubber poster: custom sizes and shapes from our workshop, with product photos and contact details" caption="Poster for custom-made parts" widths={[720, 1120, 1600, 2240]} sizes="(max-width: 1160px) calc(100vw - 40px), 1120px" loading="eager" />
+  </div>
+
+  <Row label="Overview">
+    <p class="lead">A visual identity and product content system for Ragam Rubber, a Jakarta supplier of industrial seals, gaskets and diaphragms in silicone, EPDM, PTFE and Viton.</p>
+  </Row>
+
+  <Row label="Brief">
+    <p>Products were photographed on a phone against a green cloth and posted as they were. Industrial buyers need to see exactly which part they are ordering, and every listing looked different.</p>
+  </Row>
+
+  <Row label="What I did">
+    <ul class="bullets">
+      <li>A heavy yellow and black logo that stays readable at thumbnail size in marketplaces and chats.</li>
+      <li>Cut every product out of the green cloth and placed it on one of two branded backgrounds, yellow or black, with the logo in the same corner every time.</li>
+      <li>A catalog grouped by part type: diaphragms, ferrules, gasket seals, valve seals and RO membrane seals.</li>
+      <li>A poster and marketplace banner for their main offer: parts made to custom sizes and shapes in their own workshop.</li>
+      <li>A contact card with phone, email and address, ready to share in chats.</li>
+    </ul>
+  </Row>
+
+  <Row label="My Role">
+    <p>Logo, layout system and every product post. The client supplied the product photos.</p>
+  </Row>
+
+  <div slot="after" class="band">
+    <div class="container--wide band__inner">
+      <Showcase title="Before and after" text="A phone photo as it arrived, and a finished catalog post for the same type of part." cols={2}>
+        <figure class="before">
+          <ZoomImage image={raw} alt="Phone photo of a white ferrule seal on a green cloth" caption="As supplied: phone photo on a green cloth" widths={[360, 720]} sizes={half} />
+          <figcaption>As supplied</figcaption>
+        </figure>
+        <figure>
+          <ZoomImage image={postPtfe} alt="Finished post: white PTFE ferrule seal on a black background with the Ragam Rubber logo" caption="Finished catalog post" widths={[550, 1100]} sizes={half} />
+          <figcaption>Finished post</figcaption>
+        </figure>
+      </Showcase>
+
+      <Showcase title="Product posts" text="Two backgrounds, one logo position and the same framing, so the whole catalog reads as one brand." cols={3}>
+        {posts.map((p) => (
+          <figure>
+            <ZoomImage image={p.image} alt={`Product post: ${p.title}`} caption={p.title} widths={[360, 720]} sizes={third} />
+            <figcaption>{p.title}</figcaption>
+          </figure>
+        ))}
+      </Showcase>
+
+      <Showcase title="Logo" cols={2}>
+        <figure>
+          <ZoomImage image={logoBanner} alt="Ragam Rubber logo in black on yellow" caption="Logo on the brand yellow" widths={[550, 1100]} sizes={half} />
+          <figcaption>On the brand yellow</figcaption>
+        </figure>
+        <figure>
+          <ZoomImage image={logoBlack} alt="Ragam Rubber logo in yellow on black" caption="Reversed, on black" widths={[550, 1100]} sizes={half} />
+          <figcaption>Reversed, on black</figcaption>
+        </figure>
+      </Showcase>
+
+      <Showcase title="Store and contact" cols={2}>
+        <figure>
+          <ZoomImage image={store} alt="Ragam Rubber marketplace store open on a laptop and a phone" caption="Marketplace store banner and listings" widths={[550, 1100]} sizes={half} />
+          <figcaption>Marketplace store banner and listings</figcaption>
+        </figure>
+        <figure>
+          <ZoomImage image={card} alt="Ragam Rubber contact card with phone, email and address" caption="Contact card" widths={[550, 1004]} sizes={half} />
+          <figcaption>Contact card</figcaption>
+        </figure>
+      </Showcase>
+    </div>
+  </div>
+</ProjectLayout>
+
+<style>
+  /* Foto mentah berbentuk portrait: potong ke persegi agar sejajar dengan post di sebelahnya */
+  .before :global(.zoom img) { aspect-ratio: 1; object-fit: cover; }
+</style>

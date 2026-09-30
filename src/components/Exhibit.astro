@@ -1,0 +1,245 @@
+---
+/*
+  Exhibit = satu bukti (screenshot / foto) dengan tanda "pena merah" seperti
+  tickmark auditor. Setiap tanda (A, B, C, ...) menunjuk fitur di gambar dan
+  dijelaskan di legenda.
+
+  Posisi tanda ditulis dalam PIKSEL gambar asli (x, y = titik tengah tanda),
+  jadi gampang diukur di aplikasi gambar mana pun.
+*/
+import type { ImageMetadata } from "astro";
+import ZoomImage from "./ZoomImage.astro";
+
+export interface Mark {
+  key: string;
+  x: number;
+  y: number;
+  title: string;
+  text: string;
+}
+
+interface Props {
+  id: string;
+  label: string;
+  title: string;
+  summary?: string;
+  image: ImageMetadata;
+  alt: string;
+  marks?: Mark[];
+  /** browser = bingkai jendela aplikasi, photo = foto biasa */
+  frame?: "browser" | "photo";
+  /** stack = legenda di bawah gambar, side = legenda di samping (untuk foto portrait) */
+  layout?: "stack" | "side";
+}
+
+const { id, label, title, summary, image, alt, marks = [], frame = "browser", layout = "stack" } = Astro.props;
+
+const pct = (v: number, total: number) => `${((v / total) * 100).toFixed(2)}%`;
+const markId = (key: string) => `${id}-${key.toLowerCase()}`;
+const sizes =
+  layout === "side"
+    ? "(max-width: 767px) calc(100vw - 40px), 440px"
+    : "(max-width: 1160px) calc(100vw - 40px), 1120px";
+const widths = layout === "side" ? [440, 700, 880] : [720, 1120, 1600, 2000];
+// 4 tanda → 4 kolom; 5 atau 6 tanda → 3 kolom (tidak ada item yang sendirian di baris terakhir)
+const legendCols = marks.length === 4 ? 4 : 3;
+---
+
+<figure class:list={["exhibit", `exhibit--${layout}`]} id={id} data-exhibit>
+  <figcaption class="exhibit__head">
+    <p class="exhibit__label">{label}</p>
+    <h4 class="exhibit__title">{title}</h4>
+    {summary && <p class="exhibit__summary">{summary}</p>}
+  </figcaption>
+
+  <div class="exhibit__body">
+    <div class:list={["exhibit__frame", `exhibit__frame--${frame}`]}>
+      {frame === "browser" && (
+        <div class="exhibit__bar" aria-hidden="true"><span></span><span></span><span></span></div>
+      )}
+      <div class="exhibit__canvas">
+        <ZoomImage image={image} alt={alt} caption={`${label}: ${title}`} widths={widths} sizes={sizes} />
+        {marks.map((m, i) => (
+          <a
+            class="mark mark--pin"
+            href={`#${markId(m.key)}`}
+            style={`left:${pct(m.x, image.width)};top:${pct(m.y, image.height)};--i:${i}`}
+            data-mark={m.key}
+            aria-label={`Mark ${m.key}: ${m.title}`}
+          >
+            {m.key}
+          </a>
+        ))}
+      </div>
+    </div>
+
+    {marks.length > 0 && (
+      <ul class="exhibit__legend" aria-label={`Marks on ${label}`} style={`--cols:${legendCols}`}>
+        {marks.map((m) => (
+          <li id={markId(m.key)} data-mark={m.key}>
+            <span class="mark" aria-hidden="true">{m.key}</span>
+            <div>
+              <p class="exhibit__mark-title">{m.title}</p>
+              <p class="exhibit__mark-text">{m.text}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+</figure>
+
+<script>
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  document.querySelectorAll<HTMLElement>("[data-exhibit]").forEach((exhibit) => {
+    const pins = exhibit.querySelectorAll<HTMLElement>(".mark--pin");
+    const items = exhibit.querySelectorAll<HTMLElement>(".exhibit__legend li");
+
+    // Tanda <-> legenda saling menyorot saat disentuh / difokus
+    const setActive = (key: string | null) => {
+      [...pins, ...items].forEach((el) => el.classList.toggle("is-active", el.dataset.mark === key));
+    };
+    [...pins, ...items].forEach((el) => {
+      el.addEventListener("mouseenter", () => setActive(el.dataset.mark ?? null));
+      el.addEventListener("mouseleave", () => setActive(null));
+      el.addEventListener("focus", () => setActive(el.dataset.mark ?? null));
+      el.addEventListener("blur", () => setActive(null));
+    });
+    pins.forEach((pin) => {
+      pin.addEventListener("click", (e) => {
+        const item = [...items].find((li) => li.dataset.mark === pin.dataset.mark);
+        if (!item) return;
+        e.preventDefault();
+        setActive(pin.dataset.mark ?? null);
+        item.scrollIntoView({ block: "nearest", behavior: reduceMotion ? "auto" : "smooth" });
+      });
+    });
+
+    // Satu momen gerak: tanda "dicap" berurutan saat bukti masuk layar
+    if (reduceMotion || !("IntersectionObserver" in window)) return;
+    const rect = exhibit.getBoundingClientRect();
+    if (rect.top < window.innerHeight) return; // sudah terlihat saat halaman dibuka
+    exhibit.dataset.stamp = "pending";
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((en) => en.isIntersecting)) {
+          exhibit.dataset.stamp = "done";
+          io.disconnect();
+        }
+      },
+      { threshold: 0.35 },
+    );
+    io.observe(exhibit);
+  });
+</script>
+
+<style>
+  .exhibit { display: flex; flex-direction: column; gap: 20px; }
+
+  .exhibit__head { display: flex; flex-direction: column; gap: 4px; max-width: 68ch; }
+  .exhibit__label { font-size: 14px; line-height: 20px; font-weight: 500; color: var(--c-muted); }
+  .exhibit__title { font-size: 24px; line-height: 32px; font-weight: 700; }
+  .exhibit__summary { margin-top: 4px; }
+
+  .exhibit__body { display: flex; flex-direction: column; gap: 24px; }
+
+  /* ---------- Bingkai ---------- */
+  .exhibit__frame {
+    overflow: hidden;
+    background: var(--c-surface);
+    box-shadow: var(--shadow-frame);
+  }
+  .exhibit__frame--browser { border: 1px solid var(--c-frame-line); border-radius: 10px; }
+  .exhibit__frame--photo { border-radius: var(--radius); }
+  .exhibit__bar {
+    display: flex;
+    gap: 6px;
+    padding: 9px 12px;
+    background: var(--c-chrome);
+    border-bottom: 1px solid var(--c-chrome-line);
+  }
+  .exhibit__bar span { width: 9px; height: 9px; border-radius: 50%; background: var(--c-chrome-dot); }
+  .exhibit__canvas { position: relative; }
+
+  /* ---------- Tanda pena merah ---------- */
+  .mark {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--c-primary);
+    color: var(--c-text);
+    font-size: 14px;
+    line-height: 1;
+    font-weight: 700;
+  }
+  .mark--pin {
+    position: absolute;
+    z-index: 1;
+    translate: -50% -50%;
+    box-shadow: 0 0 0 3px var(--c-white), 0 4px 10px rgba(33, 36, 61, 0.35);
+    transition: scale 0.15s ease, box-shadow 0.15s ease;
+  }
+  .mark--pin:hover,
+  .mark--pin.is-active { scale: 1.18; box-shadow: 0 0 0 3px var(--c-text), 0 4px 10px rgba(33, 36, 61, 0.35); }
+
+  [data-stamp] .mark--pin { transition: scale 0.15s ease, box-shadow 0.15s ease, opacity 0.2s ease; }
+  [data-stamp="pending"] .mark--pin { opacity: 0; scale: 1.8; }
+  [data-stamp="done"] .mark--pin {
+    animation: stamp 0.38s cubic-bezier(0.3, 1.5, 0.6, 1) both;
+    animation-delay: calc(var(--i) * 110ms + 150ms);
+  }
+  @keyframes stamp {
+    from { opacity: 0; scale: 1.8; }
+    to { opacity: 1; scale: 1; }
+  }
+
+  /* ---------- Legenda ---------- */
+  .exhibit__legend {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
+    gap: 4px 12px;
+    margin: -12px -12px 0;  /* teks sejajar tepi gambar, padding hanya untuk sorotan */
+  }
+  .exhibit__legend li {
+    display: flex;
+    gap: 14px;
+    padding: 12px;
+    border-radius: 6px;
+    scroll-margin: 24px;
+    transition: background-color 0.15s;
+  }
+  .exhibit__legend li.is-active,
+  .exhibit__legend li:target { background: var(--c-surface); box-shadow: inset 0 0 0 1px var(--c-line); }
+  .exhibit__mark-title { font-weight: 700; }
+  .exhibit__mark-text { font-size: 15px; line-height: 23px; }
+
+  /* ---------- Layout samping (foto portrait) ---------- */
+  .exhibit--side .exhibit__body {
+    display: grid;
+    grid-template-columns: minmax(0, 440px) minmax(0, 1fr);
+    align-items: start;
+    gap: 48px;
+  }
+  .exhibit--side .exhibit__legend { grid-template-columns: 1fr; gap: 12px; position: sticky; top: 24px; }
+
+  @media (max-width: 1000px) {
+    .exhibit__legend { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 767px) {
+    .exhibit__title { font-size: 20px; line-height: 28px; }
+    .exhibit__frame--browser { border-radius: 8px; }
+    .exhibit__bar { padding: 7px 10px; }
+    .exhibit__bar span { width: 7px; height: 7px; }
+    .mark { width: 22px; height: 22px; font-size: 12px; }
+    .mark--pin { box-shadow: 0 0 0 2px var(--c-white), 0 3px 8px rgba(33, 36, 61, 0.35); }
+    .exhibit--side .exhibit__body { grid-template-columns: 1fr; gap: 24px; }
+    .exhibit__legend { grid-template-columns: 1fr; }
+    .exhibit--side .exhibit__legend { position: static; }
+  }
+</style>

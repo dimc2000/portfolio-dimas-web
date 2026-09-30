@@ -1,0 +1,52 @@
+---
+import ProjectLayout from "../../layouts/ProjectLayout.astro";
+import Row from "../../components/Row.astro";
+import WorkflowDiagram from "../../components/WorkflowDiagram.astro";
+---
+
+<ProjectLayout
+  name="Content Workflow Automation"
+  description="A semi-automatic workflow that drafts marketing content with AI, checks it against a set of rules and waits for a person to approve before anything is published."
+  year={2026}
+  tags={["Automation", "AI", "In progress"]}
+  facts={[
+    { label: "Role", value: "Workflow designer and builder" },
+    { label: "Scope", value: "AI content pipeline" },
+    { label: "Tools", value: "n8n, Claude API" },
+    { label: "Status", value: "In progress" },
+  ]}
+  next={{ href: "/projects/climate-data-platform/", name: "Climate Data Platform" }}
+>
+  <div slot="hero" class="container project__hero">
+    <WorkflowDiagram />
+  </div>
+
+  <Row label="Overview">
+    <p class="lead">A semi-automatic workflow that drafts marketing content with AI, checks it against a set of rules and waits for a person to approve before anything is published.</p>
+  </Row>
+
+  <Row label="Problem">
+    <p>Producing regular content on a regulated topic takes hours each week, and every claim has to be checked so nothing misleading gets published.</p>
+  </Row>
+
+  <Row label="Solution">
+    <ul class="bullets">
+      <li>A multi-step workflow in n8n connected to the Claude API.</li>
+      <li>A router step assigns each task; separate steps handle planning and drafting.</li>
+      <li>A rules check flags risky environmental claims before review.</li>
+      <li>A human approval step: nothing is published without a person signing off.</li>
+    </ul>
+  </Row>
+
+  <Row label="Technology">
+    <div class="chips"><span class="chip">n8n</span><span class="chip">Claude API</span></div>
+  </Row>
+
+  <Row label="My Role">
+    <p>I designed the workflow structure and the approval rules, and I am building and testing each step.</p>
+  </Row>
+
+  <Row label="Outcome">
+    <p>Work in progress. The structure and the approval step are defined, and the steps are being built and tested one by one. Screenshots and results will be added once it runs on real content.</p>
+  </Row>
+</ProjectLayout>

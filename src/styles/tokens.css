@@ -1,0 +1,70 @@
+/* ==========================================================================
+   Design tokens — dari Figma "Portfolio UI - Web & Mobile" → "Portfolio v2"
+   Ubah di sini, semua halaman ikut berubah.
+   Tema: <html data-theme="light|dark">, diset oleh skrip kecil di BaseLayout
+   (pilihan pengunjung disimpan; kalau belum memilih, ikut pengaturan perangkat).
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* Warna */
+  --c-text: #21243d;
+  --c-primary: #ff6464;        /* tombol, menu aktif, tanda "pena merah" di bukti */
+  --c-primary-ink: #c43d3d;    /* merah untuk TEKS kecil (kontras ≥ 4.5:1 di latar putih & biru muda) */
+  --c-muted: #687684;          /* teks abu-abu (Figma #8695a4, digelapkan agar kontras ≥ 4.5:1) */
+  --c-link: #007a99;           /* link (Figma #00a8cc, digelapkan agar kontras ≥ 4.5:1) */
+  --c-link-bright: #00a8cc;    /* aksen biru untuk garis & ikon, bukan teks */
+  --c-soft: #edf7fa;           /* latar biru muda (pita/section) */
+  --c-badge: #142850;          /* badge tahun */
+  --c-line: #e0e0e0;           /* garis, border chip & input */
+  --c-placeholder: #e2e7ee;    /* kotak gambar */
+  --c-white: #ffffff;          /* putih murni: teks di atas latar gelap, kanvas karya desain */
+
+  --c-bg: #ffffff;             /* latar halaman */
+  --c-surface: #ffffff;        /* kartu, panel, menu */
+  --c-chrome: #f3f6f9;         /* bingkai "browser" di screenshot */
+  --c-chrome-line: #e3e8ee;
+  --c-chrome-dot: #d2d9e1;
+  --c-frame-line: #d6dde6;
+  --c-soft-line: #cfe3ea;       /* garis di atas latar biru muda */
+
+  --shadow-card: 0 4px 12px rgba(187, 225, 250, 0.35);
+  --shadow-frame: 0 18px 40px -18px rgba(20, 40, 80, 0.28);
+
+  /* Tipografi */
+  --font: var(--font-heebo), system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* Layout: Desktop = frame 1152px, konten 856px. Bukti (exhibit) memakai lebar 1120px. */
+  --container: 856px;
+  --container-wide: 1120px;
+  --gutter: 20px;
+  --radius: 6px;
+}
+
+/* Tema gelap: langit malam (latar bintang di global.css). Kontras teks tetap ≥ 4.5:1. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --c-text: #e7ecf5;
+  --c-primary: #ff6b6b;
+  --c-primary-ink: #ff9a9a;
+  --c-muted: #a1acbf;
+  --c-link: #5fd3ea;
+  --c-link-bright: #2bbfdd;
+  --c-soft: rgba(22, 34, 60, 0.62);   /* tembus pandang: bintang tetap terlihat samar */
+  --c-badge: #2e5190;
+  --c-line: rgba(255, 255, 255, 0.14);
+  --c-placeholder: #1a2236;
+
+  --c-bg: #000000;                    /* sama dengan latar GIF bintang */
+  --c-surface: #0e1424;
+  --c-chrome: #182033;
+  --c-chrome-line: #232d44;
+  --c-chrome-dot: #3a4663;
+  --c-frame-line: #2a3450;
+  --c-soft-line: rgba(255, 255, 255, 0.16);
+
+  --shadow-card: 0 6px 20px rgba(0, 0, 0, 0.55);
+  --shadow-frame: 0 18px 40px -18px rgba(0, 0, 0, 0.9);
+}

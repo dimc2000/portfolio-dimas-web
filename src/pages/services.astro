@@ -1,0 +1,66 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ServiceCard from "../components/ServiceCard.astro";
+import ProjectChat from "../components/ProjectChat.astro";
+import { services } from "../data/services";
+import { whatsappLink } from "../data/site";
+
+const wa = whatsappLink();
+---
+
+<BaseLayout
+  title="Services — Dimas Aji Samudra"
+  description="Marketing content and branding, websites, automation, dashboards and business apps."
+>
+  <section class="page">
+    <div class="container services__head">
+      <h1 class="page-title">Services</h1>
+    </div>
+
+    <div class="container--wide">
+      <div class="services__cards">
+        {services.map((s) => <ServiceCard service={s} headingLevel="h2" />)}
+      </div>
+    </div>
+
+    <div class="container">
+      <ProjectChat />
+
+      <div class="talk">
+        <p class="talk__text">Tell me what you need. I'll reply with the simplest way to do it.</p>
+        <div class="talk__ctas">
+          <a class="btn" href="/contact/">Let's Talk</a>
+          {wa && <a class="btn btn--outline" href={wa} target="_blank" rel="noopener">Chat on WhatsApp</a>}
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .services__head { display: flex; flex-direction: column; gap: 12px; margin-bottom: 36px; }
+  .services__cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  @media (min-width: 1200px) {
+    .services__cards { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+
+  .talk {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    margin-top: 32px;
+    padding: 36px 40px;
+    background: var(--c-soft);
+    border-radius: 4px;
+  }
+  .talk__text { font-size: 22px; line-height: 32px; font-weight: 500; }
+  .talk__ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+
+  @media (max-width: 767px) {
+    .services__head { margin-bottom: 24px; }
+    .services__cards { grid-template-columns: 1fr; gap: 16px; }
+    .talk { padding: 28px 20px; }
+    .talk__text { font-size: 19px; line-height: 28px; }
+  }
+</style>

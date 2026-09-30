@@ -1,0 +1,12 @@
+# Alamat lama (versi HTML statis) → alamat baru. Dibaca Netlify & Cloudflare Pages.
+# Jangan buat lagi file works.html dsb. di public/: Netlify akan mengalihkan /works/ → /works dan terjadi loop.
+/works.html                                /works/                                  301
+/services.html                             /services/                               301
+/contact.html                              /contact/                                301
+/project-climate-data-platform.html        /projects/climate-data-platform/         301
+/project-content-workflow-automation.html  /projects/content-workflow-automation/   301
+# Studi kasus yang dicopot → daftar karya desain
+/design/nivasa-palana-kost/*               /design/                                 301
+/design/nivasa-palana-kost                 /design/                                 301
+/design/musang-garage/*                    /design/                                 301
+/design/musang-garage                      /design/                                 301

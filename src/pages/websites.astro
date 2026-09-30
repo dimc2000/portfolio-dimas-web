@@ -1,0 +1,21 @@
+---
+// Sementara kosong: karya website lama sedang dicari di hard disk lama.
+// Setelah ketemu, isi seperti /design/ (kartu per proyek) dan hapus `noindex`.
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Websites — Dimas Aji Samudra" description="Website projects." noindex>
+  <section class="page">
+    <div class="container soon">
+      <a class="link" href="/services/">Back to services</a>
+      <h1 class="page-title">Websites</h1>
+      <p class="lead">Examples coming soon.</p>
+      <a class="btn" href="/contact/">Let's Talk</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .soon { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; min-height: 40vh; }
+  .soon .btn { margin-top: 8px; }
+</style>

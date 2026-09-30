@@ -1,0 +1,103 @@
+---
+import ProjectLayout from "../../layouts/ProjectLayout.astro";
+import Row from "../../components/Row.astro";
+import VideoReel from "../../components/VideoReel.astro";
+import Showcase from "../../components/Showcase.astro";
+import ZoomImage from "../../components/ZoomImage.astro";
+import { getCase } from "../../data/design";
+
+import vStudio from "../../assets/video/design/heyxi/ad-eyeshadow-pen-studio.mp4";
+import vGarden from "../../assets/video/design/heyxi/ad-eyeshadow-pen-garden.mp4";
+import vOutdoor from "../../assets/video/design/heyxi/ad-eyeshadow-pen-outdoor.mp4";
+import vCream from "../../assets/video/design/heyxi/ad-dragon-blood-cream.mp4";
+import vPerfume from "../../assets/video/design/heyxi/ad-perfume.mp4";
+import pStudio from "../../assets/images/design/heyxi/ad-eyeshadow-pen-studio-poster.jpg";
+import pGarden from "../../assets/images/design/heyxi/ad-eyeshadow-pen-garden-poster.jpg";
+import pOutdoor from "../../assets/images/design/heyxi/ad-eyeshadow-pen-outdoor-poster.jpg";
+import pCream from "../../assets/images/design/heyxi/ad-dragon-blood-cream-poster.jpg";
+import pPerfume from "../../assets/images/design/heyxi/ad-perfume-poster.jpg";
+import btsFilming from "../../assets/images/design/heyxi/bts-filming.jpg";
+import btsSetup from "../../assets/images/design/heyxi/bts-setup.jpg";
+import btsTeam from "../../assets/images/design/heyxi/bts-team.jpg";
+
+const { current, next } = getCase("heyxi");
+const videos = [
+  { src: vGarden, poster: pGarden, title: "Eyeshadow pen", caption: "Garden, 26 s" },
+  { src: vStudio, poster: pStudio, title: "Eyeshadow pen", caption: "Indoor, 18 s" },
+  { src: vOutdoor, poster: pOutdoor, title: "Eyeshadow pen", caption: "Outdoor close-ups, 22 s" },
+  { src: vCream, poster: pCream, title: "Dragon blood cream", caption: "Garden, 30 s" },
+  { src: vPerfume, poster: pPerfume, title: "Perfume", caption: "Studio set, 29 s" },
+];
+---
+
+<ProjectLayout
+  name="HEYXI Short-Form Ads"
+  description="Five vertical product ads for a cosmetics brand, made for TikTok and Instagram Reels: script, shoot, talent direction and edit."
+  year={current.year}
+  tags={current.tags}
+  facts={[
+    { label: "Client", value: "HEYXI, cosmetics brand" },
+    { label: "Role", value: "Script, shoot, direction, edit" },
+    { label: "Format", value: "9:16 video, 18–30 s" },
+    { label: "Delivered", value: "5 product ads" },
+  ]}
+  back={{ href: "/design/", label: "Back to design work" }}
+  next={{ href: `/design/${next.slug}/`, name: next.name }}
+  ogImage={pGarden.src}
+>
+  <div slot="hero" class="container--wide project__hero">
+    <VideoReel label="HEYXI product ads" videos={videos} />
+  </div>
+
+  <Row label="Overview">
+    <p class="lead">Five vertical ads for HEYXI, a cosmetics brand, made for TikTok and Instagram Reels. Each ad puts the product in someone's hand within the first seconds and ends with a reason to try it.</p>
+  </Row>
+
+  <Row label="Brief">
+    <p>On TikTok, people decide in the first seconds whether to keep watching. The brand needed product videos that feel like a person sharing something they use, not a studio commercial.</p>
+  </Row>
+
+  <Row label="What I did">
+    <ul class="bullets">
+      <li>Wrote a script for each product: an everyday problem as the hook, the product in use, and a closing line with the reason to buy.</li>
+      <li>Directed the talent and filmed outdoors and on a studio set with ring lights.</li>
+      <li>Edited for 9:16 with on-screen captions, so every ad works with the sound off.</li>
+      <li>Covered three products: an eyeshadow pen, a face cream and a perfume.</li>
+    </ul>
+  </Row>
+
+  <Row label="My Role">
+    <p>Concept and script, filming, talent direction and editing.</p>
+  </Row>
+
+  <div slot="after" class="band">
+    <div class="container--wide band__inner">
+      <Showcase title="Behind the scenes" text="Shot with a small team on a bedroom set, with ring lights and a camera on a tripod.">
+        <div class="bts">
+        <figure>
+          <ZoomImage image={btsFilming} alt="Filming the talent on the bedroom set with ring lights" caption="Filming on the studio set" widths={[360, 720]} sizes="(max-width: 767px) 50vw, 360px" />
+          <figcaption>Filming on the studio set</figcaption>
+        </figure>
+        <figure>
+          <ZoomImage image={btsSetup} alt="Camera on a tripod pointed at the set" caption="Camera setup" widths={[360, 720]} sizes="(max-width: 767px) 50vw, 360px" />
+          <figcaption>Camera setup</figcaption>
+        </figure>
+        <figure>
+          <ZoomImage image={btsTeam} alt="Dimas with the production team, a group selfie in the studio" caption="With the team" widths={[360, 648]} sizes="(max-width: 767px) 100vw, 400px" />
+          <figcaption>With the team</figcaption>
+        </figure>
+        </div>
+      </Showcase>
+    </div>
+  </div>
+</ProjectLayout>
+
+<style>
+  /* Tiga foto portrait dengan tinggi sama: kolom sebanding dengan rasio lebar/tinggi foto
+     (589x1280, 589x1280, 648x1152). Dibatasi agar foto tidak terlalu tinggi di layar lebar. */
+  .bts { display: grid; grid-template-columns: 0.46fr 0.46fr 0.5625fr; gap: 16px; align-items: start; max-width: 820px; }
+  @media (max-width: 767px) {
+    .bts { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .bts > figure:nth-child(3) { grid-column: 1 / -1; max-width: 70%; }
+  }
+</style>

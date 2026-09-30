@@ -1,0 +1,19 @@
+# build & dependencies
+dist/
+node_modules/
+.astro/
+
+# Bukti asli belum disensor: JANGAN di-commit / dipublish
+source-files/**/originals/
+source-files/**/redaction-preview.png
+# Studi kasus yang sudah dicopot dari situs: arsip lokal saja (repo ini publik)
+source-files/**/removed-from-site/
+
+# lain-lain
+.netlify/
+__pycache__/
+npm-debug.log*
+.env
+.env.*
+.DS_Store
+Thumbs.db

@@ -1,0 +1,65 @@
+---
+// Kartu studi kasus desain (halaman /design/ dan Works).
+import { Image } from "astro:assets";
+import type { DesignCase } from "../data/design";
+
+interface Props {
+  item: DesignCase;
+  headingLevel?: "h2" | "h3";
+}
+const { item, headingLevel: Heading = "h2" } = Astro.props;
+const panels = item.cover.length;
+---
+
+<a class="dcard" href={`/design/${item.slug}/`}>
+  <div class="dcard__media" style={`--panels:${panels}`}>
+    {item.cover.map((img) => (
+      <Image
+        src={img}
+        alt=""
+        widths={panels > 1 ? [200, 400] : [560, 1100]}
+        sizes={panels > 1 ? "(max-width: 767px) 33vw, 180px" : "(max-width: 767px) 100vw, 540px"}
+      />
+    ))}
+  </div>
+  <div class="dcard__text">
+    <p class="dcard__meta"><span class="dcard__name">{item.name}</span> · {item.client} · {item.year}</p>
+    <Heading class="dcard__title">{item.headline}</Heading>
+    <p class="dcard__summary">{item.summary}</p>
+    <p class="dcard__tags">{item.tags.join(" · ")}</p>
+  </div>
+</a>
+
+<style>
+  .dcard { display: flex; flex-direction: column; gap: 16px; }
+  .dcard__media {
+    display: grid;
+    grid-template-columns: repeat(var(--panels), minmax(0, 1fr));
+    gap: 6px;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: var(--c-placeholder);
+  }
+  .dcard__media :global(img) {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  .dcard__text { display: flex; flex-direction: column; gap: 8px; }
+  .dcard__meta { font-size: 15px; line-height: 22px; color: var(--c-muted); }
+  .dcard__name { font-weight: 500; color: var(--c-text); }
+  .dcard__title { font-size: 22px; line-height: 30px; font-weight: 700; }
+  .dcard__summary { max-width: 60ch; }
+  .dcard__tags { font-size: 14px; line-height: 20px; color: var(--c-muted); }
+
+  .dcard:hover .dcard__title { color: var(--c-primary); }
+  @media (prefers-reduced-motion: no-preference) {
+    .dcard:hover .dcard__media :global(img) { transform: scale(1.03); }
+  }
+  @media (max-width: 767px) {
+    .dcard__title { font-size: 20px; line-height: 28px; }
+  }
+</style>

@@ -1,0 +1,112 @@
+---
+import ProjectLayout from "../../layouts/ProjectLayout.astro";
+import Row from "../../components/Row.astro";
+import Showcase from "../../components/Showcase.astro";
+import ZoomImage from "../../components/ZoomImage.astro";
+import { getCase } from "../../data/design";
+
+import lineup from "../../assets/images/design/mountain-bay-mayroom/pouch-lineup.jpg";
+import logoDark from "../../assets/images/design/mountain-bay-mayroom/logo-dark.jpg";
+import logoLight from "../../assets/images/design/mountain-bay-mayroom/logo-light.webp";
+import labelBlend from "../../assets/images/design/mountain-bay-mayroom/label-special-blend.webp";
+import labelBisma from "../../assets/images/design/mountain-bay-mayroom/label-special-bisma.webp";
+import labelArabica from "../../assets/images/design/mountain-bay-mayroom/label-natural-arabica.webp";
+import pouchBlend from "../../assets/images/design/mountain-bay-mayroom/pouch-special-blend.jpg";
+import pouchBisma from "../../assets/images/design/mountain-bay-mayroom/pouch-special-bisma.jpg";
+import pouchArabica from "../../assets/images/design/mountain-bay-mayroom/pouch-natural-arabica.jpg";
+
+const { current, next } = getCase("mountain-bay-mayroom");
+const labels = [
+  { image: labelBlend, title: "Java Mountain Special Blend" },
+  { image: labelBisma, title: "Java Mountain Special Bisma" },
+  { image: labelArabica, title: "Java Mountain Natural Arabica" },
+];
+const pouches = [
+  { image: pouchBlend, title: "Special Blend, black pouch" },
+  { image: pouchBisma, title: "Special Bisma, white pouch" },
+  { image: pouchArabica, title: "Natural Arabica, black pouch" },
+];
+const third = "(max-width: 767px) 50vw, 360px";
+const half = "(max-width: 767px) 100vw, 550px";
+---
+
+<ProjectLayout
+  name="Mountain Bay Mayroom"
+  description="Logo, label system and retail pouches for a coffee brand selling Java beans."
+  year={current.year}
+  tags={current.tags}
+  facts={[
+    { label: "Client", value: "Coffee brand, Java beans" },
+    { label: "Role", value: "Brand and packaging designer" },
+    { label: "Delivered", value: "Logo, 3 labels, pouches" },
+    { label: "Blends", value: "Special Blend, Bisma, Arabica" },
+  ]}
+  back={{ href: "/design/", label: "Back to design work" }}
+  next={{ href: `/design/${next.slug}/`, name: next.name }}
+  ogImage={lineup.src}
+>
+  <div slot="hero" class="container--wide project__hero hero-pair">
+    <ZoomImage image={lineup} alt="Three Mountain Bay coffee pouches, black and white, in a lineup" caption="Retail lineup" widths={[550, 1100]} sizes={half} loading="eager" />
+    <ZoomImage image={logoDark} alt="Mountain Bay Mayroom logo in white on black" caption="Logo, white on black" widths={[550, 1100]} sizes={half} loading="eager" />
+  </div>
+
+  <Row label="Overview">
+    <p class="lead">Identity and packaging for Mountain Bay Mayroom, a coffee brand selling Java beans: a logo, a label system for three blends, and retail pouches.</p>
+  </Row>
+
+  <Row label="Brief">
+    <p>Three blends had to sit on one shelf and read as one brand, while each blend stayed easy to tell apart.</p>
+  </Row>
+
+  <Row label="What I did">
+    <ul class="bullets">
+      <li>A mark that combines mountain peaks, a house and water, drawn to work in white on black and in brown on cream.</li>
+      <li>One label layout for every blend. Only the fabric texture and colour change, so the range reads as a family.</li>
+      <li>Labels carry what a buyer checks: tasting notes, altitude, process, net weight and suggested brewing methods.</li>
+      <li>Black and white stand-up pouches, shown on their own and as a lineup.</li>
+    </ul>
+  </Row>
+
+  <Row label="My Role">
+    <p>Logo, label design and packaging mockups.</p>
+  </Row>
+
+  <div slot="after" class="band">
+    <div class="container--wide band__inner">
+      <Showcase title="Logo" text="The same mark in the two colourways used across packaging and social posts." cols={2}>
+        <figure>
+          <ZoomImage image={logoDark} alt="Mountain Bay Mayroom logo in white on black" caption="White on black" widths={[550, 1100]} sizes={half} />
+          <figcaption>White on black</figcaption>
+        </figure>
+        <figure>
+          <ZoomImage image={logoLight} alt="Mountain Bay Mayroom logo in brown on cream" caption="Brown on cream" widths={[550, 1100]} sizes={half} />
+          <figcaption>Brown on cream</figcaption>
+        </figure>
+      </Showcase>
+
+      <Showcase title="Label system" text="One layout, three fabric textures. Each blend gets its own colour; everything else stays in place." cols={3}>
+        {labels.map((l) => (
+          <figure class="label">
+            <ZoomImage image={l.image} alt={`Label: ${l.title}`} caption={l.title} widths={[360, 720]} sizes={third} />
+            <figcaption>{l.title}</figcaption>
+          </figure>
+        ))}
+      </Showcase>
+
+      <Showcase title="Pouches" cols={3}>
+        {pouches.map((p) => (
+          <figure>
+            <ZoomImage image={p.image} alt={`Coffee pouch: ${p.title}`} caption={p.title} widths={[360, 720]} sizes={third} />
+            <figcaption>{p.title}</figcaption>
+          </figure>
+        ))}
+      </Showcase>
+    </div>
+  </div>
+</ProjectLayout>
+
+<style>
+  /* Label berbentuk kartu transparan: tanpa bayangan kotak di belakangnya */
+  .label :global(.zoom) { box-shadow: none; background: transparent; }
+  .label :global(.zoom img) { filter: drop-shadow(0 10px 18px rgba(20, 40, 80, 0.2)); }
+</style>

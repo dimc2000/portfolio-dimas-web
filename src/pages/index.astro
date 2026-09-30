@@ -1,0 +1,165 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import WorkItem from "../components/WorkItem.astro";
+import ServiceCard from "../components/ServiceCard.astro";
+import { works, designSummary } from "../data/projects";
+import { services } from "../data/services";
+import { stats } from "../data/site";
+import profilePhoto from "../assets/images/profile-photo.webp";
+---
+
+<BaseLayout
+  title="Dimas Aji Samudra — Creative Developer: Video, Design, Web & Automation"
+  description="Videos, design and websites that bring in customers. Automation and dashboards that save you time."
+>
+  <section class="hero">
+    <div class="container home-wide hero__inner">
+      <div class="hero__text">
+        <p class="hero__role"><strong>Creative Developer</strong> &bull; Video &bull; Design &bull; Web &bull; Automation</p>
+        <h1 class="hero__title">I make what your customers see, and build what runs behind it.</h1>
+        <p class="lead hero__lead">Videos, design and websites that bring in customers. Automation and dashboards that save you time.</p>
+        <div class="hero__ctas">
+          <a class="btn" href="/works/">View My Work</a>
+          <a class="btn btn--outline" href="/contact/">Let's Talk</a>
+        </div>
+        <dl class="stats">
+          {stats.map((s) => (
+            <div class="stat">
+              <dt class="stat__label">{s.label}</dt>
+              <dd class="stat__value">{s.value}</dd>
+            </div>
+          ))}
+        </dl>
+        <p class="hero__note">Available for freelance, contract and full-time opportunities.</p>
+      </div>
+      <div class="avatar">
+        <span class="avatar__shadow"></span>
+        <Image class="avatar__photo" src={profilePhoto} alt="Dimas Aji Samudra" widths={[180, 243, 380, 486, 760]} sizes="(max-width: 767px) 174px, (max-width: 1199px) 243px, 380px" loading="eager" />
+      </div>
+    </div>
+  </section>
+
+  <section class="what" aria-labelledby="what-title">
+    <div class="container home-wide what__inner">
+      <h2 class="section-title" id="what-title">What I Do</h2>
+      <div class="cards">
+        {services.map((s) => <ServiceCard service={s} />)}
+      </div>
+      <div class="ask">
+        <p class="ask__text"><strong>Not sure what you need?</strong> Tell me the problem. I'll suggest the simplest fix.</p>
+        <a class="btn" href="/contact/">Let's Talk</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="problems-title">
+    <div class="container home-wide">
+      <div class="section-head">
+        <h2 class="section-title" id="problems-title">Problems I Solve</h2>
+        <a class="link" href="/works/">View all works</a>
+      </div>
+      {/* Sistem, lalu konten, lalu proyek yang masih berjalan */}
+      {[works[0], designSummary, ...works.slice(1)].map((work) => <WorkItem work={work} />)}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container home-wide">
+      <div class="talk-box">
+        <p class="talk-box__text">Interested in freelance, contract or full-time collaboration?</p>
+        <a class="btn" href="/contact/">Let's Talk</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ---------- Hero ---------- */
+  .hero { padding: 80px 0 88px; }
+  .hero__inner { display: flex; align-items: center; gap: 40px; }
+  .hero__text { flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
+  .hero__role { font-size: 17px; line-height: 26px; font-weight: 500; color: var(--c-muted); }
+  .hero__role strong { font-weight: 700; color: var(--c-primary-ink); }
+  .hero__lead { text-wrap: pretty; }
+  .hero__title { font-size: 40px; line-height: 52px; font-weight: 700; text-wrap: balance; }
+  .hero__ctas { display: flex; flex-wrap: wrap; gap: 16px; }
+  .hero__note { font-size: 14px; line-height: 20px; color: var(--c-muted); }
+
+  /* Baris angka: angka besar di atas, keterangan kecil di bawah (urutan HTML: dt lalu dd) */
+  .stats { display: flex; margin: 8px 0 0; }
+  .stat { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 2px; padding: 0 24px; border-left: 1px solid var(--c-line); }
+  .stat:first-child { padding-left: 0; border-left: 0; }
+  .stat__value { margin: 0; font-size: 34px; line-height: 40px; font-weight: 700; color: var(--c-text); }
+  .stat__label { max-width: 11em; font-size: 14px; line-height: 19px; color: var(--c-muted); }
+
+  /* Ukuran foto diatur lewat --avatar; lingkaran biru di belakangnya bergeser 1/30 ukuran foto */
+  .avatar {
+    --avatar: 243px;
+    --shift: calc(var(--avatar) / 30);
+    position: relative;
+    flex: none;
+    width: calc(var(--avatar) + var(--shift));
+    height: calc(var(--avatar) + var(--shift));
+  }
+  .avatar__shadow { position: absolute; left: 0; top: var(--shift); width: var(--avatar); height: var(--avatar); border-radius: 50%; background: var(--c-soft); }
+  .avatar :global(.avatar__photo) { position: absolute; left: var(--shift); top: 0; width: var(--avatar); height: var(--avatar); border-radius: 50%; object-fit: cover; }
+
+  /* Laptop & layar lebar: hero lebih lebar, teks dan foto lebih besar */
+  @media (min-width: 1200px) {
+    .hero { padding: 104px 0 112px; }
+    /* Semua bagian beranda ikut lebar agar tepi kirinya sejajar dengan hero */
+    .home-wide { width: min(var(--container-wide), 100% - 2 * var(--gutter)); }
+    .hero__inner { gap: 72px; }
+    .hero__text { gap: 24px; }
+    .hero__role { font-size: 18px; line-height: 28px; }
+    .hero__title { font-size: clamp(44px, 3.3vw, 58px); line-height: 1.18; }
+    .hero__lead { font-size: 20px; line-height: 32px; max-width: 34em; }
+    .hero__ctas .btn { padding: 16px 28px; }
+    .hero__note { font-size: 15px; }
+    .avatar { --avatar: clamp(300px, 22vw, 380px); }
+  }
+
+  /* ---------- What I Do ---------- */
+  .what { background: var(--c-soft); padding: 56px 0 64px; }
+  .what__inner { display: flex; flex-direction: column; gap: 24px; }
+  /* Kartu layanan: 4 sebaris di laptop, 2 di tablet, 1 di HP (lihat ServiceCard) */
+  .cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  @media (min-width: 1200px) {
+    .cards { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+
+  /* Ajakan untuk yang belum tahu butuh layanan apa */
+  .ask {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px 24px;
+    padding: 20px 24px;
+    border: 1px solid var(--c-soft-line);
+    border-radius: var(--radius);
+    background: var(--c-surface);
+  }
+  .ask__text { font-size: 17px; line-height: 26px; }
+  .ask .btn { flex: none; padding: 12px 22px; font-size: 16px; }
+
+  @media (max-width: 767px) {
+    .hero { padding: 12px 0 48px; }
+    .hero__inner { flex-direction: column; align-items: flex-start; gap: 28px; }
+    .hero__text { gap: 16px; }
+    .hero__role { font-size: 15px; line-height: 22px; }
+    .hero__title { font-size: 32px; line-height: 42px; }
+    .hero__lead { font-size: 16px; line-height: 26px; }
+    .hero__ctas { gap: 12px; }
+    .stats { width: 100%; }
+    .stat { flex: 1; padding: 0 12px; }
+    .stat__value { font-size: 28px; line-height: 34px; }
+    .stat__label { max-width: none; font-size: 13px; line-height: 17px; }
+    .avatar { order: -1; --avatar: 174px; }
+
+    .what { padding: 40px 0; }
+    .cards { grid-template-columns: 1fr; gap: 16px; }
+    .ask { flex-direction: column; align-items: flex-start; padding: 20px; }
+    .ask__text { font-size: 16px; line-height: 24px; }
+  }
+</style>

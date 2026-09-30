@@ -1,0 +1,22 @@
+{
+  "name": "portfolio-dimas-web",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "evidence": "python source-files/scripts/prepare-evidence.py",
+    "design-media": "python source-files/scripts/prepare-design-media.py"
+  },
+  "dependencies": {
+    "astro": "^7.3.5",
+    "sharp": "^0.35.5"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^6.0.3"
+  }
+}

@@ -1,0 +1,64 @@
+---
+import { Font } from "astro:assets";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import { site } from "../data/site";
+import "../styles/tokens.css";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Gambar untuk preview link (LinkedIn, WhatsApp, dll). */
+  ogImage?: string;
+  /** true = jangan tampil di hasil pencarian (misalnya halaman yang isinya belum siap) */
+  noindex?: boolean;
+}
+
+// Tanpa gambar sendiri → kartu preview default (public/og.jpg, dibuat oleh source-files/scripts/make-og-image.py)
+const { title, description, ogImage = "/og.jpg", noindex = false } = Astro.props;
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
+const ogImageUrl = ogImage && Astro.site ? new URL(ogImage, Astro.site).href : ogImage;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#ffffff" />
+    <script is:inline>
+      // Pasang tema sebelum halaman tampil (tanpa kedipan): pilihan tersimpan, atau ikut perangkat
+      (() => {
+        let theme = null;
+        try { theme = localStorage.getItem("theme"); } catch {}
+        if (theme !== "light" && theme !== "dark") theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.dataset.theme = theme;
+        document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "dark" ? "#000000" : "#ffffff");
+      })();
+    </script>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+    <meta name="twitter:card" content={ogImageUrl ? "summary_large_image" : "summary"} />
+
+    <Font cssVariable="--font-heebo" preload />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <SiteHeader />
+    <main id="main">
+      <slot />
+    </main>
+    <SiteFooter />
+  </body>
+</html>

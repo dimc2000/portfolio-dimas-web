@@ -1,0 +1,26 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import WorkItem from "../components/WorkItem.astro";
+import { works, designSummary } from "../data/projects";
+---
+
+<BaseLayout
+  title="Works — Dimas Aji Samudra"
+  description="Each project starts with a real problem. Here is what I made to solve it: videos, brands, dashboards and automation."
+>
+  <section class="page page--works">
+    <div class="container">
+      <h1 class="page-title">Works</h1>
+      <p class="lead">Each project starts with a real problem. Here is what I made to solve it.</p>
+      {/* Karya desain cukup satu kartu (klik → /design/ berisi semua proyeknya), urutan sama dengan Home */}
+      <div class="works">
+        {[works[0], designSummary, ...works.slice(1)].map((work) => <WorkItem work={work} headingLevel="h2" />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page--works .lead { margin-top: 4px; }
+  .works { margin-top: 12px; }
+</style>

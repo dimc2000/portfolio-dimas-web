@@ -1,0 +1,185 @@
+---
+import ProjectLayout from "../../layouts/ProjectLayout.astro";
+import Row from "../../components/Row.astro";
+import VideoReel from "../../components/VideoReel.astro";
+import Showcase from "../../components/Showcase.astro";
+import ZoomImage from "../../components/ZoomImage.astro";
+import { getCase } from "../../data/design";
+
+import explainer from "../../assets/video/design/pirichain/explainer.mp4";
+import explainerPoster from "../../assets/images/design/pirichain/explainer-poster.jpg";
+import deck01 from "../../assets/images/design/pirichain/deck-01.jpg";
+import deck02 from "../../assets/images/design/pirichain/deck-02.jpg";
+import deck03 from "../../assets/images/design/pirichain/deck-03.jpg";
+import deck04 from "../../assets/images/design/pirichain/deck-04.jpg";
+import deck05 from "../../assets/images/design/pirichain/deck-05.jpg";
+import deck07 from "../../assets/images/design/pirichain/deck-07.jpg";
+import deck08 from "../../assets/images/design/pirichain/deck-08.jpg";
+import deck09 from "../../assets/images/design/pirichain/deck-09.jpg";
+import deck10 from "../../assets/images/design/pirichain/deck-10.jpg";
+import scene1 from "../../assets/images/design/pirichain/scene-1-intro.jpg";
+import scene2 from "../../assets/images/design/pirichain/scene-2-context.jpg";
+import scene3 from "../../assets/images/design/pirichain/scene-3-problem.jpg";
+import scene4 from "../../assets/images/design/pirichain/scene-4-answer.jpg";
+import scene5 from "../../assets/images/design/pirichain/scene-5-ecosystem.jpg";
+import scene6 from "../../assets/images/design/pirichain/scene-6-apis.jpg";
+import scene7 from "../../assets/images/design/pirichain/scene-7-roadmap.jpg";
+import postsMockup from "../../assets/images/design/pirichain/posts-mockup.webp";
+import postAirdropStarted from "../../assets/images/design/pirichain/post-airdrop-started.jpg";
+import postAirdropContinues from "../../assets/images/design/pirichain/post-airdrop-continues.jpg";
+import postStake from "../../assets/images/design/pirichain/post-stake-pool.jpg";
+import postDocrypt from "../../assets/images/design/pirichain/post-docrypt.jpg";
+
+const { current, next } = getCase("pirichain");
+
+// Urutan slide di deck (slide 6 dan 11 tidak ditampilkan: judul bagian dan penutup yang sama dengan cover)
+const slides = [
+  { image: deck01, title: "Cover" },
+  { image: deck02, title: "Where Pirichain fits next to Ethereum" },
+  { image: deck03, title: "The problem: misleading data" },
+  { image: deck04, title: "The answer: a domain verified address" },
+  { image: deck05, title: "What companies get" },
+  { image: deck07, title: "Connecting to external APIs" },
+  { image: deck08, title: "Roadmap: preparing data" },
+  { image: deck09, title: "Roadmap: AI and data processing" },
+  { image: deck10, title: "Custom consensus diagram" },
+];
+
+// Adegan explainer, mengikuti alur deck
+const scenes = [
+  { image: scene1, step: "Intro", text: "Welcome to Pirichain, the new generation blockchain network." },
+  { image: scene2, step: "Context", text: "Ethereum was the first blockchain to manage data." },
+  { image: scene3, step: "Problem", text: "Misleading data is everywhere. How do you know the source is reliable?" },
+  { image: scene4, step: "Answer", text: "Pirichain checks the sender's address against their domain." },
+  { image: scene5, step: "Ecosystems", text: "Companies and institutions set up their own data ecosystems." },
+  { image: scene6, step: "Integrations", text: "Smart Scenarios call outside APIs and send results back." },
+  { image: scene7, step: "Roadmap", text: "Data mining and AI tools planned for the next year." },
+];
+
+const posts = [
+  { image: postDocrypt, title: "Product launch: Docrypt" },
+  { image: postAirdropStarted, title: "Airdrop list, October" },
+  { image: postAirdropContinues, title: "Airdrop list, December" },
+  { image: postStake, title: "Staking update" },
+];
+const third = "(max-width: 767px) 50vw, 360px";
+---
+
+<ProjectLayout
+  name="Pirichain"
+  description="A sales deck, explainer video and announcement posts for Pirichain, a blockchain platform that lets companies set up their own data ecosystems."
+  year={current.year}
+  tags={current.tags}
+  facts={[
+    { label: "Client", value: "Pirichain, blockchain platform" },
+    { label: "Role", value: "Presentation design, motion" },
+    { label: "Delivered", value: "Deck, explainer, posts" },
+    { label: "Audience", value: "Companies and institutions" },
+  ]}
+  back={{ href: "/design/", label: "Back to design work" }}
+  next={{ href: `/design/${next.slug}/`, name: next.name }}
+  ogImage={scene1.src}
+>
+  <div slot="hero" class="container project__hero piri-hero">
+    <VideoReel
+      label="Pirichain explainer video"
+      orientation="landscape"
+      videos={[{ src: explainer, poster: explainerPoster, title: "Explainer video", caption: "Motion graphics, 1 min 55 s, 16:9" }]}
+    />
+  </div>
+
+  <Row label="Overview">
+    <p class="lead">Pirichain is a blockchain network that lets companies and institutions run their own data ecosystems. I designed how it explains itself: a sales deck for meetings, an explainer video that tells the same story without a presenter, and posts for its community.</p>
+  </Row>
+
+  <Row label="Brief">
+    <p>Blockchain is hard to explain to a business audience. Pirichain had to show what makes it different: data from a verified sender, Smart Scenarios that connect to outside systems, and data tools on the roadmap. It had to do that without losing people in technical terms.</p>
+  </Row>
+
+  <Row label="What I did">
+    <ul class="bullets">
+      <li>Structured the deck as a story: the problem (misleading data online), Pirichain's answer (addresses verified by domain), what companies can build, and what comes next.</li>
+      <li>Drew the illustrations and diagrams in the brand's coral and blue, including the office scenes and the consensus diagram.</li>
+      <li>Animated the same story into a two-minute explainer, scene by scene from a script, so it works on the website and social media without anyone presenting it.</li>
+      <li>Designed announcement posts for the community: airdrop lists, a staking update and the launch of Docrypt, a file encryption app built on Pirichain.</li>
+    </ul>
+  </Row>
+
+  <Row label="My Role">
+    <p>Presentation design, illustration, motion graphics and social posts.</p>
+  </Row>
+
+  <div slot="after" class="band">
+    <div class="container--wide band__inner">
+      <Showcase title="Sales deck" text="Nine of the eleven slides. The deck moves from the problem to Pirichain's answer, then to what companies can build and the roadmap." cols={3}>
+        {slides.map((s) => (
+          <figure>
+            <ZoomImage image={s.image} alt={`Pirichain sales deck slide: ${s.title}`} caption={s.title} widths={[360, 720, 1100]} sizes={third} />
+            <figcaption>{s.title}</figcaption>
+          </figure>
+        ))}
+      </Showcase>
+
+      <Showcase title="The explainer, scene by scene" text="The deck's story as a two-minute motion graphics video, so it can be shared without a presenter.">
+        <ol class="filmstrip">
+          {scenes.map((s) => (
+            <li class="filmstrip__item">
+              <ZoomImage image={s.image} alt={`${s.step}: ${s.text}`} caption={`${s.step}: ${s.text}`} widths={[280, 560, 1100]} sizes="(max-width: 767px) 70vw, 270px" />
+              <p class="filmstrip__step">{s.step}</p>
+              <p class="filmstrip__text">{s.text}</p>
+            </li>
+          ))}
+        </ol>
+      </Showcase>
+
+      <Showcase title="Announcement posts" text="Posts for the community channels: a product launch, airdrop lists and a staking update.">
+        <div class="posts">
+          <figure class="posts__mockup">
+            <ZoomImage image={postsMockup} alt="Four Pirichain announcement posts laid out together: Docrypt launch, two airdrop lists and a staking update" caption="The four posts together" widths={[720, 1100, 1600, 2240]} sizes="(max-width: 1160px) calc(100vw - 40px), 1120px" />
+          </figure>
+          <div class="posts__grid">
+            {posts.map((p) => (
+              <figure>
+                <ZoomImage image={p.image} alt={`Pirichain post: ${p.title}`} caption={p.title} widths={[270, 540, 1020]} sizes="(max-width: 767px) 50vw, 270px" />
+                <figcaption>{p.title}</figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </Showcase>
+    </div>
+  </div>
+</ProjectLayout>
+
+<style>
+  /* Judul video sudah diwakili nama proyek */
+  .piri-hero :global(.reel__title) { display: none; }
+
+  /* ---------- Filmstrip: adegan explainer (16:9) ---------- */
+  .filmstrip {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px 16px;
+  }
+  .filmstrip__item { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .filmstrip__item :global(.zoom) { margin-bottom: 6px; overflow: hidden; border-radius: 8px; box-shadow: var(--shadow-frame); }
+  .filmstrip__step { font-size: 14px; line-height: 20px; font-weight: 700; color: var(--c-primary-ink); }
+  .filmstrip__text { font-size: 14px; line-height: 20px; color: var(--c-muted); }
+
+  .posts { display: flex; flex-direction: column; gap: 20px; }
+  .posts__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; align-items: start; }
+
+  @media (max-width: 767px) {
+    .filmstrip {
+      display: flex;
+      margin-inline: calc(var(--gutter) * -1);
+      padding: 0 var(--gutter) 12px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline: var(--gutter);
+    }
+    .filmstrip__item { flex: 0 0 70vw; scroll-snap-align: start; }
+    .posts__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  }
+</style>

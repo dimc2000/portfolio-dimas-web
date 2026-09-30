@@ -1,0 +1,99 @@
+---
+// Satu <dialog> per halaman. Tombol mana pun dengan [data-lightbox] membukanya.
+---
+
+<dialog class="lightbox" aria-label="Full size image">
+  <form method="dialog" class="lightbox__bar">
+    <p class="lightbox__caption"></p>
+    <button class="lightbox__close" type="submit" aria-label="Close">
+      <svg viewBox="0 0 20 20" width="20" height="20" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 5l10 10M15 5L5 15" /></svg>
+    </button>
+  </form>
+  <div class="lightbox__stage">
+    <img class="lightbox__img" alt="" decoding="async" />
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>(".lightbox");
+  const img = dialog?.querySelector<HTMLImageElement>(".lightbox__img");
+  const caption = dialog?.querySelector<HTMLElement>(".lightbox__caption");
+
+  document.addEventListener("click", (e) => {
+    const trigger = (e.target as Element).closest<HTMLElement>("[data-lightbox]");
+    if (!trigger || !dialog || !img || !caption) return;
+    img.src = trigger.dataset.lightbox ?? "";
+    img.alt = trigger.dataset.lightboxAlt ?? "";
+    caption.textContent = trigger.dataset.lightboxCaption ?? "";
+    dialog.showModal();
+  });
+
+  // Klik di luar gambar menutup lightbox
+  dialog?.addEventListener("click", (e) => {
+    if (e.target === dialog || (e.target as Element).classList.contains("lightbox__stage")) dialog.close();
+  });
+  dialog?.addEventListener("close", () => img?.removeAttribute("src"));
+</script>
+
+<style>
+  .lightbox {
+    width: 100vw;
+    max-width: 100vw;
+    height: 100dvh;
+    max-height: 100dvh;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--c-white);
+  }
+  .lightbox::backdrop { background: rgba(20, 22, 38, 0.9); }
+  .lightbox[open] { display: flex; flex-direction: column; }
+
+  .lightbox__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 16px 12px 24px;
+  }
+  .lightbox__caption { font-size: 15px; line-height: 22px; }
+  .lightbox__close {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    flex: none;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--c-white);
+    cursor: pointer;
+  }
+  .lightbox__close:hover { background: rgba(255, 255, 255, 0.22); }
+
+  .lightbox__stage {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    place-items: center;
+    padding: 0 16px 24px;
+    overflow: auto;
+  }
+  .lightbox__img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 4px;
+    background: var(--c-white);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .lightbox[open] .lightbox__img { animation: lightbox-in 0.22s ease-out; }
+    @keyframes lightbox-in {
+      from { opacity: 0; transform: scale(0.97); }
+    }
+  }
+</style>

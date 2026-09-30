@@ -1,0 +1,58 @@
+---
+/*
+  Kartu layanan (Home & Services): seluruh kartu adalah satu link ke contoh karya.
+  Isi: logo kecil di kiri atas, judul, satu kalimat, kata kunci.
+  Logo = public/brand/logo-mark.png dipakai sebagai mask, warnanya ikut --c-text
+  (hitam di tema terang, putih di tema gelap). Sengaja tanpa gambar dan tanpa garis warna di atas kartu.
+*/
+import type { Service } from "../data/services";
+
+interface Props {
+  service: Service;
+  headingLevel?: "h2" | "h3";
+}
+const { service: s, headingLevel: Heading = "h3" } = Astro.props;
+---
+
+<a class="scard" href={s.href}>
+  <span class="scard__logo" aria-hidden="true"></span>
+  <Heading class="scard__title">{s.title}</Heading>
+  <p class="scard__line">{s.line}</p>
+  <p class="scard__tags">{s.tags.join(" · ")}</p>
+  <span class="scard__cta">See work <span class="scard__arrow" aria-hidden="true">→</span></span>
+</a>
+
+<style>
+  .scard {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+    padding: 24px 22px 22px;
+    background: var(--c-surface);
+    border: 1px solid var(--c-line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-card);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .scard:hover { border-color: var(--c-muted); box-shadow: var(--shadow-frame); }
+  .scard:hover .scard__title { color: var(--c-primary); }
+  .scard:hover .scard__arrow { translate: 4px 0; }
+  @media (prefers-reduced-motion: no-preference) {
+    .scard:hover { transform: translateY(-3px); }
+  }
+
+  .scard__logo {
+    width: 40px;
+    aspect-ratio: 320 / 233;
+    margin-bottom: 14px;
+    background-color: var(--c-text);
+    -webkit-mask: url("/brand/logo-mark.png") center / contain no-repeat;
+    mask: url("/brand/logo-mark.png") center / contain no-repeat;
+  }
+  .scard__title { font-size: 21px; line-height: 28px; font-weight: 700; transition: color 0.2s ease; }
+  .scard__line { font-size: 17px; line-height: 25px; }
+  .scard__tags { font-size: 14px; line-height: 20px; color: var(--c-muted); }
+  .scard__cta { margin-top: auto; padding-top: 14px; font-weight: 500; color: var(--c-link); }
+  .scard__arrow { display: inline-block; transition: translate 0.2s ease; }
+</style>

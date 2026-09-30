@@ -1,0 +1,65 @@
+---
+/*
+  Layout halaman detail proyek.
+  Slot:
+    hero    — gambar/visual utama di bawah judul
+    (utama) — baris Overview, Problem, Solution, ... (pakai <Row>)
+    after   — bagian lebar setelah baris, misalnya "Evidence"
+*/
+import BaseLayout from "./BaseLayout.astro";
+import Lightbox from "../components/Lightbox.astro";
+import "../styles/project.css";
+
+interface Props {
+  name: string;
+  description: string;
+  year: number;
+  tags: string[];
+  facts: { label: string; value: string }[];
+  next: { href: string; name: string };
+  /** Default: kembali ke Works */
+  back?: { href: string; label: string };
+  ogImage?: string;
+}
+
+const { name, description, year, tags, facts, next, ogImage, back = { href: "/works/", label: "Back to works" } } = Astro.props;
+---
+
+<BaseLayout title={`${name} — Dimas Aji Samudra`} description={description} ogImage={ogImage}>
+  <article class="project">
+    <header class="container project__head">
+      <a class="link back" href={back.href}>{back.label}</a>
+      <h1 class="page-title">{name}</h1>
+      <div class="meta">
+        <span class="badge">{year}</span>
+        <span class="meta__tags">{tags.join(" · ")}</span>
+      </div>
+    </header>
+
+    <slot name="hero" />
+
+    <div class="container">
+      <dl class="facts">
+        {facts.map((f) => (
+          <div>
+            <dt>{f.label}</dt>
+            <dd>{f.value}</dd>
+          </div>
+        ))}
+      </dl>
+      <div class="rows">
+        <slot />
+      </div>
+    </div>
+
+    <slot name="after" />
+
+    <div class="container">
+      <nav class="next" aria-label="More projects">
+        <a class="link" href={next.href}>Next project: {next.name}</a>
+        <a class="btn" href="/contact/">Let's Talk</a>
+      </nav>
+    </div>
+  </article>
+  <Lightbox />
+</BaseLayout>

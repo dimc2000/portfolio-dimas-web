@@ -1,0 +1,44 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import DesignCard from "../../components/DesignCard.astro";
+import { designCases } from "../../data/design";
+---
+
+<BaseLayout
+  title="Design & Content — Dimas Aji Samudra"
+  description="Sales decks, explainer videos, short-form video ads, brand identity and packaging."
+>
+  <section class="page design-page">
+    <div class="container design-page__head">
+      <a class="link back" href="/works/">Back to works</a>
+      <h1 class="page-title">Design &amp; Content</h1>
+      <p class="lead measure">Sales decks, explainer videos, short-form ads and brand identity. The same person who builds your systems can make what your customers see.</p>
+    </div>
+
+    <div class="container--wide">
+      <div class="cases">
+        {designCases.map((item) => <DesignCard item={item} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="talk-box">
+        <p class="talk-box__text">Need videos or visuals for your product?</p>
+        <a class="btn" href="/contact/">Let's Talk</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .design-page { padding-bottom: 16px; }
+  .design-page__head { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; margin-bottom: 40px; }
+  .cases { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 56px 40px; }
+
+  @media (max-width: 767px) {
+    .cases { grid-template-columns: 1fr; gap: 48px; }
+    .design-page__head { margin-bottom: 28px; }
+  }
+</style>

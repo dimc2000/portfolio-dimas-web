@@ -1,0 +1,106 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site, social, whatsappLink } from "../data/site";
+
+const wa = whatsappLink();
+---
+
+<BaseLayout
+  title="Contact — Dimas Aji Samudra"
+  description="Interested in freelance, contract or full-time collaboration? Let's talk."
+>
+  <section class="page page--contact">
+    <div class="container contact-page">
+      <h1 class="page-title">Contact</h1>
+      <p class="contact-intro">Interested in freelance, contract or full-time collaboration? Let's talk.</p>
+      <div class="contact">
+        <!-- Tanpa server: tombol membuka aplikasi email pengunjung dengan pesan yang sudah terisi -->
+        <form class="form" data-email={site.email}>
+          <div class="field">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" autocomplete="name" placeholder="Your name" required />
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="you@company.com" required />
+          </div>
+          <div class="field">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Tell me about the project or role" required></textarea>
+          </div>
+          <button class="btn" type="submit">Send Message</button>
+          <p class="form__note" role="status">Your email app will open with this message ready to send.</p>
+        </form>
+        <div class="direct">
+          <div class="direct__item">
+            <p class="label-sm">Email</p>
+            <a class="direct__value" href={`mailto:${site.email}`}>{site.email}</a>
+          </div>
+          {wa && (
+            <div class="direct__item">
+              <p class="label-sm">WhatsApp</p>
+              <a class="direct__value" href={wa} target="_blank" rel="noopener">Chat on WhatsApp</a>
+            </div>
+          )}
+          <div class="direct__item">
+            <p class="label-sm">LinkedIn</p>
+            <a class="direct__value" href={social.linkedin.href} target="_blank" rel="noopener">{social.linkedin.handle}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>(".form");
+  form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const field = (n: string) => (form.elements.namedItem(n) as HTMLInputElement).value.trim();
+    const name = field("name");
+    const from = field("email");
+    const subject = encodeURIComponent("Project inquiry" + (name ? " from " + name : ""));
+    const body = encodeURIComponent(field("message") + "\n\n" + name + (from ? " <" + from + ">" : ""));
+    window.location.href = `mailto:${form.dataset.email}?subject=${subject}&body=${body}`;
+  });
+</script>
+
+<style>
+  .page--contact { padding-bottom: 24px; }
+  .contact-page { display: flex; flex-direction: column; gap: 16px; }
+  .contact-intro { font-size: 22px; line-height: 32px; }
+  .contact { display: flex; gap: 56px; padding-top: 16px; }
+
+  .form { flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
+  .form__note { font-size: 14px; line-height: 20px; color: var(--c-muted); }
+  .field { align-self: stretch; display: flex; flex-direction: column; gap: 8px; }
+  .field label { font-size: 14px; line-height: 20px; font-weight: 500; }
+  .field input,
+  .field textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--c-line);
+    border-radius: 4px;
+    font: inherit;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--c-text);
+    background: var(--c-surface);
+  }
+  .field textarea { height: 150px; resize: vertical; }
+  .field input::placeholder,
+  .field textarea::placeholder { color: var(--c-muted); opacity: 1; }
+  .field input:focus-visible,
+  .field textarea:focus-visible { outline: 2px solid var(--c-link); outline-offset: 0; border-color: var(--c-link); }
+
+  .direct { flex: none; width: 280px; display: flex; flex-direction: column; gap: 20px; }
+  .direct__item { display: flex; flex-direction: column; gap: 4px; }
+  .direct__value { font-size: 18px; line-height: 26px; color: var(--c-link); overflow-wrap: anywhere; }
+  .direct__value:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+  @media (max-width: 767px) {
+    .contact-intro { font-size: 18px; line-height: 28px; }
+    .contact { flex-direction: column; gap: 36px; }
+    .direct { width: auto; }
+  }
+</style>

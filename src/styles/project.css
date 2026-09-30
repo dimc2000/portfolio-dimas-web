@@ -1,0 +1,108 @@
+/* ==========================================================================
+   Halaman detail proyek (dipakai lewat ProjectLayout.astro).
+   Global karena isinya datang dari slot halaman masing-masing.
+   ========================================================================== */
+
+.project { padding: 48px 0 8px; }
+
+.project__head { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
+.meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.badge {
+  padding: 3px 10px;
+  border-radius: 16px;
+  background: var(--c-badge);
+  color: var(--c-white);
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 700;
+}
+.meta__tags { font-size: 18px; line-height: 24px; color: var(--c-muted); }
+
+.project__hero { margin-top: 32px; }
+
+/* ---------- Ringkasan fakta ---------- */
+.facts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+  padding: 32px 0 36px;
+}
+.facts dt { font-size: 14px; line-height: 20px; font-weight: 500; color: var(--c-muted); }
+.facts dd { margin-top: 4px; font-size: 17px; line-height: 25px; font-weight: 500; }
+
+/* ---------- Baris Overview / Problem / ... ---------- */
+.rows { display: flex; flex-direction: column; }
+.row {
+  display: flex;
+  gap: 32px;
+  padding: 28px 0;
+  border-top: 1px solid var(--c-line);
+}
+.row__label { flex: none; width: 190px; font-size: 22px; line-height: 30px; font-weight: 500; }
+.row__body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+.row__body .lead { font-size: 18px; line-height: 30px; }
+.row__group + .row__group { margin-top: 8px; }
+.row__group .label-sm { margin-bottom: 8px; }
+
+/* Rujukan ke bukti di dalam poin Solution: "✓ Exhibit 4" seperti tickmark auditor */
+.proof {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 4px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  color: var(--c-link);
+  white-space: nowrap;
+}
+.proof::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  background: var(--c-primary);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M1.5 6.5l3 3 6-7' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M1.5 6.5l3 3 6-7' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.proof:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---------- Penutup ---------- */
+.next {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 8px;
+  padding-top: 28px;
+  border-top: 1px solid var(--c-line);
+}
+.next .link { font-size: 18px; line-height: 27px; }
+
+@media (max-width: 767px) {
+  .project { padding: 16px 0 8px; }
+  .badge { font-size: 14px; }
+  .meta__tags { font-size: 15px; }
+  .project__hero { margin-top: 24px; }
+  .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 16px; padding: 24px 0 28px; }
+  .facts dd { font-size: 16px; line-height: 24px; }
+  .row { flex-direction: column; gap: 12px; }
+  .row__label { width: auto; font-size: 20px; }
+  .next { flex-direction: column; align-items: flex-start; }
+}
+
+/* ---------- Pita galeri (studi kasus desain) ---------- */
+.band { margin-top: 56px; padding: 64px 0 80px; background: var(--c-soft); }
+.band__inner { display: flex; flex-direction: column; gap: 72px; }
+.hero-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.hero-pair .zoom,
+.project__hero > .zoom { overflow: hidden; border-radius: var(--radius); box-shadow: var(--shadow-frame); }
+
+@media (max-width: 767px) {
+  .band { margin-top: 40px; padding: 48px 0 56px; }
+  .band__inner { gap: 56px; }
+  .hero-pair { gap: 12px; }
+}
+
+/* Setelah pita galeri / bukti, garis pemisah tidak diperlukan */
+.band + .container .next,
+.evidence + .container .next { margin-top: 0; padding-top: 40px; border-top: 0; }

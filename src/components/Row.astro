@@ -1,0 +1,13 @@
+---
+// Satu baris di halaman proyek: label di kiri (desktop) / atas (mobile), isi di kanan.
+interface Props { label: string }
+const { label } = Astro.props;
+const id = label.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+---
+
+<section class="row" aria-labelledby={`row-${id}`}>
+  <h2 class="row__label" id={`row-${id}`}>{label}</h2>
+  <div class="row__body">
+    <slot />
+  </div>
+</section>

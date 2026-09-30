@@ -1,0 +1,304 @@
+---
+import ProjectLayout from "../../layouts/ProjectLayout.astro";
+import Row from "../../components/Row.astro";
+import Exhibit, { type Mark } from "../../components/Exhibit.astro";
+import ZoomImage from "../../components/ZoomImage.astro";
+import { getImage } from "astro:assets";
+
+// Semua gambar sudah disensor lewat source-files/scripts/prepare-evidence.py
+import dashboardOverview from "../../assets/images/projects/climate-data-platform/dashboard-overview.png";
+import pillarDashboard from "../../assets/images/projects/climate-data-platform/pillar-dashboard.png";
+import regulatoryCompliance from "../../assets/images/projects/climate-data-platform/regulatory-compliance.png";
+import evidenceVault from "../../assets/images/projects/climate-data-platform/evidence-vault.png";
+import unitInterior from "../../assets/images/projects/climate-data-platform/iot-unit-interior.jpg";
+import unitEnclosure from "../../assets/images/projects/climate-data-platform/iot-unit-enclosure-open.jpg";
+import unitSolarMount from "../../assets/images/projects/climate-data-platform/iot-unit-solar-mount.jpg";
+
+const og = await getImage({ src: dashboardOverview, width: 1200, format: "png" });
+
+// Posisi tanda = piksel pada gambar asli (lihat Exhibit.astro)
+const overviewMarks: Mark[] = [
+  { key: "A", x: 925, y: 190, title: "Live figures", text: "Every number is computed from transaction rows when the page loads. Nothing is stored as a constant, so a correction from the field shows up right away." },
+  { key: "B", x: 1578, y: 138, title: "Exports for management and auditors", text: "Executive summary as PDF, audit working paper as Excel, and raw ESG data as CSV or JSON." },
+  { key: "C", x: 1005, y: 510, title: "Source on every chart", text: "Each chart names the document its classification comes from, down to the page." },
+  { key: "D", x: 612, y: 898, title: "Verified results only", text: "Headline achievements appear only after a verifier approves them." },
+  { key: "E", x: 1372, y: 898, title: "Audit readiness, unpolished", text: "Readiness is shown as it is, including when the result is poor." },
+];
+
+const pillarMarks: Mark[] = [
+  { key: "A", x: 1100, y: 84, title: "Six CSR pillars", text: "Education, local economy and small business, social infrastructure, environment, health, and culture." },
+  { key: "B", x: 1640, y: 218, title: "Mapped to the SDGs", text: "Each pillar shows the Sustainable Development Goals it contributes to." },
+  { key: "C", x: 885, y: 573, title: "Manual and sensor data kept apart", text: "Every row is tagged as manual, mixed or IoT sensor, and the share of each is shown for the pillar." },
+  { key: "D", x: 660, y: 656, title: "Targets against results", text: "Only indicators that already have a target are listed, each with its progress." },
+];
+
+const complianceMarks: Mark[] = [
+  { key: "A", x: 730, y: 262, title: "Status at a glance", text: "13 regulations and standards, counted as fully in place, partly in place or not yet in place." },
+  { key: "B", x: 895, y: 452, title: "Look-alike regulations flagged", text: "The register warns when two similar regulations get mixed up and lists conflicting citations in internal documents." },
+  { key: "C", x: 1495, y: 585, title: "Tied to a source document", text: "Every entry points to the document it comes from, so a reviewer can check it." },
+  { key: "D", x: 1705, y: 585, title: "Real readiness status", text: "Each regulation keeps its own status, including the ones that are not in place yet." },
+];
+
+const vaultMarks: Mark[] = [
+  { key: "A", x: 945, y: 190, title: "Evidence tied to its figure", text: "Files can only be added through the form that records the figure, so no document sits in the archive without context." },
+  { key: "B", x: 1235, y: 533, title: "Tamper check with SHA-256", text: "Each file is fingerprinted on upload. Verify recomputes the fingerprint, and any change to the file shows up." },
+  { key: "C", x: 1375, y: 533, title: "Geotagged field photos", text: "Photos carry the coordinates where they were taken. The coordinates are blurred here." },
+  { key: "D", x: 1640, y: 533, title: "Verify, then approve", text: "A reviewer checks each file before it counts toward a reported figure." },
+  { key: "E", x: 1555, y: 289, title: "ISAE 3000 alignment", text: "Evidence rules follow the TJSL guidelines and the ISAE 3000 assurance standard." },
+];
+
+const unitMarks: Mark[] = [
+  { key: "A", x: 410, y: 256, title: "External LoRa antenna", text: "Mounted outside the enclosure so readings can reach a gateway from remote sites." },
+  { key: "B", x: 666, y: 840, title: "LILYGO T-Echo Lite core", text: "Microcontroller and LoRa radio on one board, running firmware written in C/C++." },
+  { key: "C", x: 707, y: 1270, title: "Solar charge controller", text: "Charges the battery from the solar panel and powers the board." },
+  { key: "D", x: 922, y: 1024, title: "Battery pack", text: "Keeps the unit running at night and on cloudy days." },
+  { key: "E", x: 589, y: 1577, title: "Waterproof power switch", text: "Turns the unit on and off without opening the case." },
+  { key: "F", x: 348, y: 1720, title: "Cable gland", text: "Sealed entry for the solar panel cable." },
+];
+---
+
+<ProjectLayout
+  name="Climate Data Platform"
+  description="A climate data platform that brings environmental and CSR program data into one place, with CSR and ESG dashboards, an evidence module and a solar-powered LoRa field unit, so every reported number can be traced back to its source."
+  year={2026}
+  tags={["Web platform", "Dashboards", "IoT"]}
+  facts={[
+    { label: "Role", value: "Co-founder, lead developer" },
+    { label: "Scope", value: "Web platform and IoT field unit" },
+    { label: "Assurance", value: "ISAE 3000 evidence rules" },
+    { label: "Status", value: "In active development" },
+  ]}
+  next={{ href: "/projects/content-workflow-automation/", name: "Content Workflow Automation" }}
+  ogImage={og.src}
+>
+  <div slot="hero" class="container--wide project__hero hero-shot">
+    <div class="hero-shot__screen">
+      <div class="hero-shot__bar" aria-hidden="true"><span></span><span></span><span></span></div>
+      <ZoomImage
+        image={evidenceVault}
+        alt="Evidence vault screen: a list of evidence files with SHA-256 fingerprints, geotags and approval status"
+        caption="Evidence vault (client details blurred)"
+        widths={[720, 1000, 1400, 1900]}
+        sizes="(max-width: 1160px) calc(100vw - 40px), 990px"
+        loading="eager"
+      />
+    </div>
+    <div class="hero-shot__unit">
+      <ZoomImage
+        image={unitInterior}
+        alt="Inside the IoT field unit: LoRa board, solar charge controller and battery in a sealed enclosure"
+        caption="IoT field unit prototype"
+        widths={[240, 480]}
+        sizes="(max-width: 767px) 34vw, 270px"
+        loading="eager"
+      />
+    </div>
+  </div>
+
+  <Row label="Overview">
+    <p class="lead">A climate data platform that brings environmental and CSR program data into one place. It combines CSR and ESG dashboards, an evidence module and an IoT field unit that collects on-site readings, so every reported number can be traced back to its source.</p>
+  </Row>
+
+  <Row label="Problem">
+    <p>Companies running environmental and CSR programs kept their data in scattered spreadsheets and reports, and field data at remote sites was collected by hand. Reporting was slow, records had gaps, and it was hard to show auditors where each number came from.</p>
+  </Row>
+
+  <Row label="Solution">
+    <ul class="bullets">
+      <li>CSR and ESG dashboards with Python backends that bring program and impact data into one place. <a class="proof" href="#exhibit-1">Exhibit 1</a> <a class="proof" href="#exhibit-2">Exhibit 2</a></li>
+      <li>An evidence module aligned with ISAE 3000 assurance, co-developed with the team, so each claim has proof attached. <a class="proof" href="#exhibit-4">Exhibit 4</a></li>
+      <li>A data model that keeps manual entries and sensor readings separate, so it is always clear where a number came from. <a class="proof" href="#exhibit-2-c">Exhibit 2, mark C</a></li>
+      <li>A regulatory compliance register that links each regulation and standard to its source document and current status. <a class="proof" href="#exhibit-3">Exhibit 3</a></li>
+      <li>Exports for management and auditors: an executive summary PDF, an audit working paper in Excel, and raw ESG data as CSV or JSON. <a class="proof" href="#exhibit-1-b">Exhibit 1, mark B</a></li>
+      <li>A solar-powered LoRa field unit with a microcontroller, external antenna and battery backup, designed to send on-site readings straight to the platform. <a class="proof" href="#exhibit-5">Exhibit 5</a> <a class="proof" href="#exhibit-6">Exhibit 6</a></li>
+      <li>Reliable delivery on low-cost shared hosting: a fetch layer with automatic retry, fixed single-page-app routing, and a closed route that had exposed configuration files.</li>
+    </ul>
+  </Row>
+
+  <Row label="Technology">
+    <div class="row__group">
+      <p class="label-sm">Platform</p>
+      <div class="chips"><span class="chip">Python</span><span class="chip">Flask</span><span class="chip">SQLite</span><span class="chip">JavaScript</span><span class="chip">HTML/CSS</span></div>
+    </div>
+    <div class="row__group">
+      <p class="label-sm">Field unit</p>
+      <div class="chips"><span class="chip">C/C++</span><span class="chip">Arduino</span><span class="chip">LoRa</span><span class="chip">Solar power</span></div>
+    </div>
+  </Row>
+
+  <Row label="My Role">
+    <p>Co-founder and lead developer. I designed the data model, built the dashboards and backends, built the IoT field unit prototype, and handled deployment and security on low-cost hosting.</p>
+  </Row>
+
+  <Row label="Outcome">
+    <p>Program data now sits in one system instead of scattered files. The CSR and ESG dashboards are running, the first IoT prototype is assembled and ready for field testing, and the platform is in active development. Client and platform names are withheld until launch, so they are blurred in the screenshots.</p>
+  </Row>
+
+  <section slot="after" class="evidence" id="evidence" aria-labelledby="evidence-title">
+    <div class="container evidence__intro">
+      <h2 class="section-title" id="evidence-title">Evidence</h2>
+      <p class="measure">Screens from the working platform and photos of the field unit prototype. Each red mark points to the feature a claim refers to. Select a mark to read what it shows, or select an image to open it full size. Client, staff and platform names are blurred.</p>
+    </div>
+
+    <div class="container--wide evidence__group">
+      <h3 class="evidence__group-title">Platform</h3>
+      <Exhibit
+        id="exhibit-1"
+        label="Exhibit 1"
+        title="Dashboard overview"
+        summary="The main view for program managers: spending, programs and beneficiaries for the selected pillar and financial year."
+        image={dashboardOverview}
+        alt="Dashboard overview with spending, programs and beneficiaries cards, a spending-by-pillar chart and the export menu open"
+        marks={overviewMarks}
+      />
+      <Exhibit
+        id="exhibit-2"
+        label="Exhibit 2"
+        title="Pillar dashboard"
+        summary="One view per CSR pillar, showing where each number came from and how far each target has been reached."
+        image={pillarDashboard}
+        alt="Pillar dashboard with the pillar selector open, SDG icons, a data source composition bar and target progress bars"
+        marks={pillarMarks}
+      />
+      <Exhibit
+        id="exhibit-3"
+        label="Exhibit 3"
+        title="Regulatory compliance"
+        summary="A register of the regulations and standards the program has to follow, with the real status of each one."
+        image={regulatoryCompliance}
+        alt="Regulatory compliance register with status counts, a warning about look-alike regulations and a table of regulations"
+        marks={complianceMarks}
+      />
+      <Exhibit
+        id="exhibit-4"
+        label="Exhibit 4"
+        title="Evidence vault"
+        summary="The archive behind every reported figure, built with the team to follow ISAE 3000 assurance."
+        image={evidenceVault}
+        alt="Evidence vault with totals for stored, approved, geotagged and rejected files, and a table of evidence files"
+        marks={vaultMarks}
+      />
+    </div>
+
+    <div class="container--wide evidence__group">
+      <h3 class="evidence__group-title">IoT field unit</h3>
+      <Exhibit
+        id="exhibit-5"
+        label="Exhibit 5"
+        title="Inside the field unit"
+        summary="The first prototype, assembled and ready for field testing. It is built to run on its own at remote sites and send readings straight to the platform."
+        image={unitInterior}
+        alt="Open enclosure of the IoT field unit showing the antenna, LoRa board, solar charge controller, battery pack, power switch and cable gland"
+        marks={unitMarks}
+        frame="photo"
+        layout="side"
+      />
+
+      <figure class="exhibit-pair" id="exhibit-6">
+        <figcaption class="exhibit-pair__head">
+          <p class="exhibit-pair__label">Exhibit 6</p>
+          <h4 class="exhibit-pair__title">Enclosure and solar mount</h4>
+        </figcaption>
+        <div class="exhibit-pair__grid">
+          <div class="exhibit-pair__item">
+            <ZoomImage
+              image={unitEnclosure}
+              alt="The field unit enclosure opened, showing the sealed lid and the parts fixed to a mounting grid"
+              caption="Exhibit 6: sealed enclosure, opened"
+              widths={[320, 640]}
+              sizes="(max-width: 767px) calc(100vw - 40px), 320px"
+            />
+            <p class="exhibit-pair__caption">The sealed enclosure, opened: a gasketed lid, with every part fixed to a mounting grid.</p>
+          </div>
+          <div class="exhibit-pair__item">
+            <ZoomImage
+              image={unitSolarMount}
+              alt="The field unit on its mounting bracket with the solar panel attached, held over a workbench"
+              caption="Exhibit 6: unit with its solar panel"
+              widths={[780, 1152]}
+              sizes="(max-width: 767px) calc(100vw - 40px), 780px"
+            />
+            <p class="exhibit-pair__caption">The unit on its mounting bracket with the solar panel attached, before field testing.</p>
+          </div>
+        </div>
+      </figure>
+    </div>
+  </section>
+</ProjectLayout>
+
+<style>
+  /* ---------- Hero: layar platform + unit IoT ---------- */
+  .hero-shot { position: relative; padding: 0 12% 64px 0; }
+  .hero-shot__screen {
+    overflow: hidden;
+    border: 1px solid var(--c-frame-line);
+    border-radius: 10px;
+    background: var(--c-surface);
+    box-shadow: var(--shadow-frame);
+  }
+  .hero-shot__bar {
+    display: flex;
+    gap: 6px;
+    padding: 9px 12px;
+    background: var(--c-chrome);
+    border-bottom: 1px solid var(--c-chrome-line);
+  }
+  .hero-shot__bar span { width: 9px; height: 9px; border-radius: 50%; background: var(--c-chrome-dot); }
+  .hero-shot__unit {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 24%;
+    overflow: hidden;
+    border: 6px solid var(--c-surface);
+    border-radius: 10px;
+    box-shadow: var(--shadow-frame);
+  }
+
+  /* ---------- Bagian bukti ---------- */
+  .evidence {
+    margin-top: 56px;
+    padding: 64px 0 80px;
+    background: var(--c-soft);
+  }
+  .evidence__intro { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+  .evidence__group { display: flex; flex-direction: column; gap: 72px; padding-top: 40px; }
+  .evidence__group-title {
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--c-soft-line);
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: 500;
+    color: var(--c-muted);
+  }
+  .evidence__group + .evidence__group { padding-top: 88px; }
+
+  /* Exhibit 6: dua foto dengan tinggi sama */
+  .exhibit-pair { display: flex; flex-direction: column; gap: 20px; }
+  .exhibit-pair__head { display: flex; flex-direction: column; gap: 4px; }
+  .exhibit-pair__label { font-size: 14px; line-height: 20px; font-weight: 500; color: var(--c-muted); }
+  .exhibit-pair__title { font-size: 24px; line-height: 32px; font-weight: 700; }
+  .exhibit-pair__grid {
+    display: grid;
+    grid-template-columns: 0.5625fr 1.3714fr; /* = rasio lebar/tinggi kedua foto → tinggi sama */
+    gap: 20px;
+    align-items: start;
+  }
+  .exhibit-pair__item { display: flex; flex-direction: column; gap: 10px; }
+  .exhibit-pair__item :global(.zoom) { overflow: hidden; border-radius: var(--radius); box-shadow: var(--shadow-frame); }
+  .exhibit-pair__caption { font-size: 15px; line-height: 23px; }
+
+  @media (max-width: 767px) {
+    .hero-shot { padding: 0 0 30% 0; }
+    .hero-shot__unit { width: 34%; border-width: 4px; border-radius: 8px; }
+    .hero-shot__screen { border-radius: 8px; }
+    .hero-shot__bar { padding: 7px 10px; }
+    .hero-shot__bar span { width: 7px; height: 7px; }
+
+    .evidence { margin-top: 40px; padding: 48px 0 56px; }
+    .evidence__group { gap: 56px; padding-top: 32px; }
+    .evidence__group + .evidence__group { padding-top: 64px; }
+    .exhibit-pair__title { font-size: 20px; line-height: 28px; }
+    .exhibit-pair__grid { grid-template-columns: 1fr; }
+  }
+</style>

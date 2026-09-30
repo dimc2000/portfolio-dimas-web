@@ -1,0 +1,37 @@
+---
+import SocialIcon from "./SocialIcon.astro";
+import { site, social, type SocialKey } from "../data/site";
+
+const keys = (Object.keys(social) as SocialKey[]).filter((key) => social[key].show);
+---
+
+<footer class="footer">
+  <div class="footer__social">
+    {keys.map((key) => (
+      <a href={social[key].href} target="_blank" rel="noopener" aria-label={social[key].label}>
+        <SocialIcon name={key} />
+      </a>
+    ))}
+  </div>
+  <p class="footer__copy">&copy; {site.year} {site.name} &middot; All rights reserved</p>
+</footer>
+
+<style>
+  .footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    padding: 64px 20px 44px;
+  }
+  .footer__social { display: flex; align-items: center; gap: 32px; }
+  .footer__social a { display: block; padding: 4px; color: var(--c-text); }
+  .footer__social a:hover { color: var(--c-primary); }
+  .footer__social :global(svg) { display: block; }
+  .footer__copy { font-size: 14px; line-height: 20px; }
+
+  @media (max-width: 767px) {
+    .footer { padding: 48px 20px 36px; }
+    .footer__social { gap: 28px; }
+  }
+</style>
