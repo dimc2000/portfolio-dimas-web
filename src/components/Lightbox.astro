@@ -9,21 +9,24 @@
       <svg viewBox="0 0 20 20" width="20" height="20" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 5l10 10M15 5L5 15" /></svg>
     </button>
   </form>
-  <div class="lightbox__stage">
-    <img class="lightbox__img" alt="" decoding="async" />
-  </div>
+  <div class="lightbox__stage"></div>
 </dialog>
 
 <script>
   const dialog = document.querySelector<HTMLDialogElement>(".lightbox");
-  const img = dialog?.querySelector<HTMLImageElement>(".lightbox__img");
+  const stage = dialog?.querySelector<HTMLElement>(".lightbox__stage");
   const caption = dialog?.querySelector<HTMLElement>(".lightbox__caption");
 
+  // Gambar dibuat saat dibuka (elemen <img> tanpa src tidak valid) dan dibuang saat ditutup
   document.addEventListener("click", (e) => {
     const trigger = (e.target as Element).closest<HTMLElement>("[data-lightbox]");
-    if (!trigger || !dialog || !img || !caption) return;
+    if (!trigger || !dialog || !stage || !caption) return;
+    const img = new Image();
+    img.className = "lightbox__img";
+    img.decoding = "async";
     img.src = trigger.dataset.lightbox ?? "";
     img.alt = trigger.dataset.lightboxAlt ?? "";
+    stage.replaceChildren(img);
     caption.textContent = trigger.dataset.lightboxCaption ?? "";
     dialog.showModal();
   });
@@ -32,7 +35,7 @@
   dialog?.addEventListener("click", (e) => {
     if (e.target === dialog || (e.target as Element).classList.contains("lightbox__stage")) dialog.close();
   });
-  dialog?.addEventListener("close", () => img?.removeAttribute("src"));
+  dialog?.addEventListener("close", () => stage?.replaceChildren());
 </script>
 
 <style>
@@ -80,7 +83,7 @@
     padding: 0 16px 24px;
     overflow: auto;
   }
-  .lightbox__img {
+  .lightbox__stage :global(.lightbox__img) {
     max-width: 100%;
     max-height: 100%;
     width: auto;
@@ -91,7 +94,7 @@
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .lightbox[open] .lightbox__img { animation: lightbox-in 0.22s ease-out; }
+    .lightbox[open] :global(.lightbox__img) { animation: lightbox-in 0.22s ease-out; }
     @keyframes lightbox-in {
       from { opacity: 0; transform: scale(0.97); }
     }

@@ -37,7 +37,7 @@ export const works: Work[] = [
     tags: ["Automation", "AI", "In progress"],
     problem: "Regular content took hours, and every claim needed checking",
     solution:
-      "Designing an n8n and Claude API workflow that drafts content, flags risky claims and waits for human approval before publishing. In progress.",
+      "An n8n and Gemini workflow that drafts content, flags risky claims and waits for human approval before anything is posted. In progress.",
     href: "/projects/content-workflow-automation/",
     visual: "workflow",
   },

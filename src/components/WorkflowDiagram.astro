@@ -3,13 +3,14 @@
 interface Props { compact?: boolean }
 const { compact = false } = Astro.props;
 
+// Sama dengan workflow asli di "2 content-engine-n8n" (Obsidian → Gemini → cek klaim → Telegram → Ready)
 const steps = [
-  { title: "Router", tool: "n8n", text: "Reads the request and assigns the task." },
-  { title: "Plan", tool: "Claude API", text: "Outlines the piece and its key points." },
-  { title: "Draft", tool: "Claude API", text: "Writes the first version." },
-  { title: "Rules check", tool: "n8n", text: "Flags risky environmental claims." },
-  { title: "Human approval", tool: "Person", text: "Nothing moves on without a sign-off.", gate: true },
-  { title: "Publish", tool: "n8n", text: "Goes out only after approval." },
+  { title: "Pick idea", tool: "Obsidian", text: "Takes the next idea marked as selected." },
+  { title: "Draft", tool: "Gemini API", text: "Writes the first version." },
+  { title: "Rules check", tool: "n8n", text: "Flags risky claims." },
+  { title: "Human approval", tool: "Telegram", text: "Nothing moves on without a sign-off.", gate: true },
+  { title: "Ready", tool: "Obsidian", text: "Approved posts are saved, ready to go." },
+  { title: "Publish", tool: "Person", text: "Posted by hand after approval." },
 ];
 ---
 

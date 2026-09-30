@@ -12,7 +12,7 @@ import WorkflowDiagram from "../../components/WorkflowDiagram.astro";
   facts={[
     { label: "Role", value: "Workflow designer and builder" },
     { label: "Scope", value: "AI content pipeline" },
-    { label: "Tools", value: "n8n, Claude API" },
+    { label: "Tools", value: "n8n, Gemini API, Telegram" },
     { label: "Status", value: "In progress" },
   ]}
   next={{ href: "/projects/climate-data-platform/", name: "Climate Data Platform" }}
@@ -31,22 +31,22 @@ import WorkflowDiagram from "../../components/WorkflowDiagram.astro";
 
   <Row label="Solution">
     <ul class="bullets">
-      <li>A multi-step workflow in n8n connected to the Claude API.</li>
-      <li>A router step assigns each task; separate steps handle planning and drafting.</li>
-      <li>A rules check flags risky environmental claims before review.</li>
-      <li>A human approval step: nothing is published without a person signing off.</li>
+      <li>An n8n workflow picks the next selected idea from a notes vault and drafts it with the Gemini API.</li>
+      <li>A rules check flags risky claims before review.</li>
+      <li>A human approval step in Telegram: nothing moves on without a person signing off.</li>
+      <li>Approved posts are saved as ready. Posting stays manual.</li>
     </ul>
   </Row>
 
   <Row label="Technology">
-    <div class="chips"><span class="chip">n8n</span><span class="chip">Claude API</span></div>
+    <div class="chips"><span class="chip">n8n</span><span class="chip">Gemini API</span><span class="chip">Telegram</span><span class="chip">Obsidian</span></div>
   </Row>
 
   <Row label="My Role">
-    <p>I designed the workflow structure and the approval rules, and I am building and testing each step.</p>
+    <p>I designed the workflow structure and the approval rules, and built each step.</p>
   </Row>
 
   <Row label="Outcome">
-    <p>Work in progress. The structure and the approval step are defined, and the steps are being built and tested one by one. Screenshots and results will be added once it runs on real content.</p>
+    <p>Work in progress. The workflow is built and tested offline. Screenshots and results will be added once it runs on real content.</p>
   </Row>
 </ProjectLayout>

@@ -98,7 +98,7 @@ const tabs = [
   .nav__links { display: flex; gap: 32px; }
   .nav__links a { font-size: 20px; line-height: 30px; font-weight: 500; }
   .nav__links a:hover,
-  .nav__links a[aria-current="page"] { color: var(--c-primary); }
+  .nav__links a[aria-current="page"] { color: var(--c-primary-ink); }
 
   /* ---------- Tombol tema: bulan di mode terang, matahari di mode gelap ---------- */
   .theme-toggle {
@@ -156,6 +156,6 @@ const tabs = [
     .tabbar svg { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
     /* Halaman aktif: ikon terisi + warna utama (seperti Instagram) */
     .tabbar a[aria-current="page"] { color: var(--c-text); font-weight: 700; }
-    .tabbar a[aria-current="page"] svg { fill: color-mix(in srgb, var(--c-primary) 25%, transparent); stroke: var(--c-primary); stroke-width: 2; }
+    .tabbar a[aria-current="page"] svg { fill: color-mix(in srgb, var(--c-primary) 25%, transparent); stroke: var(--c-primary-ink); stroke-width: 2; }
   }
 </style>

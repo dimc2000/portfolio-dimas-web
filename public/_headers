@@ -1,3 +1,11 @@
-# Netlify / Cloudflare Pages: file di /_astro/ punya hash di namanya, jadi aman di-cache selamanya
+# Netlify / Cloudflare Pages
+# Keamanan dasar untuk semua halaman (HTTPS/HSTS sudah dari Netlify)
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# File di /_astro/ punya hash di namanya, jadi aman di-cache selamanya
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable

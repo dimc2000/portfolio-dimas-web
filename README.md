@@ -1,130 +1,76 @@
-# Portfolio Dimas Aji Samudra
+# Dimas Aji Samudra — Portfolio
 
-Situs portfolio berbasis [Astro](https://astro.build), diturunkan dari Figma
-"Portfolio UI - Web & Mobile" → halaman **Portfolio v2**
-(font Heebo, warna coral `#ff6464`, frame desktop 1152px dan mobile 375px).
+Source code of my portfolio website. I'm a creative developer: I make videos, design and websites that bring in customers, and build the automation and dashboards that run behind them.
 
-## Cara menjalankan
+**Live site:** [dimas-aji-samudra.netlify.app](https://dimas-aji-samudra.netlify.app)
 
-Butuh **Node.js 22.12 atau lebih baru**.
+![Home page on desktop (light theme) and on a phone (dark theme)](docs/preview.jpg)
+
+## What's inside
+
+- **Case studies with evidence.** Dashboard screenshots with client details redacted, numbered exhibit markers, video reels and a zoomable lightbox.
+- **Light and dark theme.** It follows the device setting, and a choice made with the toggle is remembered.
+- **Built for phones.** Phones get a bottom tab bar for navigation and layouts checked at 390 px wide.
+- **Fast by default.** Pages are static HTML with no client-side framework. The only JavaScript is a few small inline scripts. Images are served responsive in WebP/JPG, videos load only when played, and the font is self-hosted.
+- **Accessible.** The markup is semantic, focus styles are visible, reduced motion is respected, and colour contrast is checked with axe-core.
+- **Search-ready.** Every page has a canonical URL and an Open Graph preview image. The site includes a sitemap, `robots.txt` and 301 redirects from old URLs.
+- **No backend to maintain.** The contact form runs on Netlify Forms. If a message can't be sent there, it falls back to the visitor's email app.
+
+## Tech stack
+
+| Area | Tools |
+| --- | --- |
+| Site | [Astro 7](https://astro.build), TypeScript, plain CSS with design tokens |
+| Images | `astro:assets` + sharp (responsive sizes, WebP) |
+| Hosting | Netlify (static hosting, Forms, headers and redirects) |
+| Media scripts | Python, Pillow, ffmpeg |
+
+## Project structure
+
+```text
+src/
+├─ pages/         Routes: home, works, services, contact, case studies
+├─ layouts/       Base page layout and case-study layout
+├─ components/    Header, cards, exhibits, video reel, lightbox, …
+├─ data/          Site info, projects, services and design cases (edit content here)
+├─ styles/        Design tokens and global styles
+└─ assets/        Optimised images and videos
+public/           Static files, _headers, _redirects, robots.txt
+source-files/
+└─ scripts/       Media pipeline: redaction, video compression, profile and preview images
+docs/             Screenshots and the working guide (Indonesian)
+```
+
+## Run it locally
+
+Requires Node.js 22.12 or newer.
 
 ```bash
-npm install        # sekali saja
-npm run dev        # buka http://localhost:4321 — otomatis refresh saat file diubah
-npm run build      # hasil siap hosting di folder dist/
-npm run preview    # cek hasil build di http://localhost:4321
-npm run check      # cek error TypeScript/Astro
+npm install
+npm run dev       # dev server at http://localhost:4321
+npm run check     # type and template checks
+npm run build     # static site in dist/
+npm run preview   # serve the built site
 ```
 
-> `dist/` tidak bisa dibuka dengan double-click (file://). Pakai `npm run preview`
-> atau upload isi `dist/` ke hosting (Netlify, Vercel, Cloudflare Pages, GitHub Pages,
-> atau shared hosting biasa).
+## Deploy
 
-## Struktur folder
-
-```
-portfolio-dimas-web/
-├─ astro.config.mjs          Konfigurasi (font Heebo self-hosted, domain situs)
-├─ public/                   Di-copy apa adanya ke dist/
-│  ├─ favicon.svg
-│  ├─ og.jpg                 Gambar preview link default (source-files/scripts/make-og-image.py)
-│  ├─ theme/                 Latar bintang tema gelap (source-files/scripts/make-star-background.py)
-│  ├─ _redirects             Redirect alamat lama v1 (works.html → /works/, dst.) — Netlify
-│  └─ _headers               Cache untuk file /_astro/ — Netlify
-├─ src/
-│  ├─ pages/                 Satu file = satu halaman (URL mengikuti nama file)
-│  │  ├─ index.astro         /
-│  │  ├─ works.astro         /works/
-│  │  ├─ services.astro      /services/
-│  │  ├─ contact.astro       /contact/
-│  │  ├─ 404.astro
-│  │  ├─ projects/           Studi kasus sistem (otomasi, dashboard)
-│  │  │  ├─ climate-data-platform.astro
-│  │  │  └─ content-workflow-automation.astro
-│  │  └─ design/             Studi kasus desain & konten
-│  │     ├─ index.astro      /design/  (daftar studi kasus + explainer)
-│  │     ├─ pirichain.astro
-│  │     ├─ heyxi.astro
-│  │     ├─ ragam-rubber.astro
-│  │     └─ mountain-bay-mayroom.astro
-│  ├─ layouts/
-│  │  ├─ BaseLayout.astro    <head>, SEO, header, footer — dipakai semua halaman
-│  │  └─ ProjectLayout.astro Kerangka halaman detail proyek
-│  ├─ components/
-│  │  ├─ SiteHeader.astro / SiteFooter.astro / SocialIcon.astro
-│  │  ├─ WorkItem.astro      Kartu karya di Home & Works
-│  │  ├─ Row.astro           Baris Overview / Problem / Solution ...
-│  │  ├─ Exhibit.astro       Bukti dengan tanda pena merah A, B, C + legenda
-│  │  ├─ ZoomImage.astro     Gambar yang bisa dibuka ukuran penuh
-│  │  ├─ Lightbox.astro      Jendela gambar ukuran penuh
-│  │  ├─ WorkflowDiagram.astro  Diagram alur Content Workflow
-│  │  ├─ DesignCard.astro    Kartu studi kasus desain
-│  │  ├─ VideoReel.astro     Deretan video vertikal 9:16 (klik untuk putar)
-│  │  └─ Showcase.astro      Satu bagian galeri di studi kasus desain
-│  ├─ data/                  Teks yang dipakai di banyak halaman
-│  │  ├─ site.ts             Nama, email, menu, link sosial
-│  │  ├─ projects.ts         Daftar karya sistem (Home & Works)
-│  │  ├─ design.ts           Daftar studi kasus desain (Design, Works, Home)
-│  │  └─ services.ts         Daftar layanan (Home & Services)
-│  ├─ styles/
-│  │  ├─ tokens.css          Warna, font, lebar — ubah di sini
-│  │  ├─ global.css          Gaya dasar & komponen umum
-│  │  └─ project.css         Gaya halaman detail proyek
-│  └─ assets/
-│     ├─ images/             Gambar yang dioptimasi otomatis (WebP, beberapa ukuran)
-│     │  ├─ profile-photo.webp        ← dibuat oleh make-profile-photo.py
-│     │  ├─ projects/climate-data-platform/   ← sudah disensor, aman dipublish
-│     │  └─ design/<proyek>/                  ← hasil prepare-design-media.py
-│     └─ video/design/<proyek>/               ← video 720p siap web
-└─ source-files/             TIDAK ikut dipublish
-   ├─ climate-data-platform/originals/     Bukti asli (belum disensor) — di-.gitignore
-   ├─ design/<proyek>/originals/           Salinan file asli dari arsip desain — di-.gitignore
-   ├─ profile/originals/                   Foto profil asli — di-.gitignore
-   └─ scripts/
-      ├─ prepare-evidence.py               Sensor screenshot + potong foto (Climate)
-      ├─ prepare-design-media.py           Kompres video + perkecil gambar (Design)
-      └─ make-profile-photo.py             Foto profil: crop + koreksi ringan (tanpa AI)
+```bash
+npm run build
+netlify deploy --prod --dir dist
 ```
 
-## Menambah / mengganti bukti Climate Data Platform
+## Privacy
 
-1. Taruh file asli di `source-files/climate-data-platform/originals/`.
-2. Atur kotak sensor & potongan di `source-files/scripts/prepare-evidence.py`.
-   Cek dulu dengan `python source-files/scripts/prepare-evidence.py --preview`
-   (membuat `redaction-preview.png` berisi setiap kotak bergaris merah).
-3. Jalankan `npm run evidence` (butuh Python + Pillow: `pip install pillow`).
-4. Posisi tanda A, B, C ditulis di `src/pages/projects/climate-data-platform.astro`
-   dalam **piksel gambar asli** (`x`, `y` = titik tengah tanda).
+Client names, staff names, logos and location data in the case-study screenshots are redacted before publishing (`source-files/scripts/prepare-evidence.py`). Original, unredacted files are kept out of this repository.
 
-Yang disensor: logo & nama grup klien, nama & jabatan staf, nama platform,
-nama file yang memuat nama klien, dan koordinat geotag. Metadata foto (EXIF/GPS) dibuang.
+## License
 
-## Menambah / mengganti karya desain
+© 2026 Dimas Aji Samudra. All rights reserved.
+The code is public for reference. The images, videos and client work shown on the site may not be reused without permission.
 
-1. Daftarkan file di `COLLECT` pada `source-files/scripts/prepare-design-media.py`
-   (sumber default: arsip `E:\M.DIMAS AJI.S\DATA PROJEK DESAIEG`).
-2. Jalankan `npm run design-media`. Video jadi MP4 720p (±2–5 MB) + gambar poster,
-   gambar jadi JPG (atau WebP bila transparan) maks. 2400 px, metadata dibuang.
-3. `import` hasilnya di halaman `src/pages/design/...` dan, bila perlu, di `src/data/design.ts`.
+## Contact
 
-## Menambah proyek baru
+[Contact page](https://dimas-aji-samudra.netlify.app/contact/) · [LinkedIn](https://www.linkedin.com/in/m-dimas-aji-samudra-1143a223b/) · [Behance](https://www.behance.net/dimc4)
 
-1. Tambah entri di `src/data/projects.ts` (muncul di Home & Works).
-2. Buat `src/pages/projects/nama-proyek.astro` memakai `ProjectLayout` + `Row`
-   (contoh paling sederhana: `content-workflow-automation.astro`).
-3. Gambar taruh di `src/assets/images/projects/nama-proyek/` lalu `import` di halaman.
-
-## Setelah punya domain
-
-Isi `site` di `astro.config.mjs` (misalnya `site: "https://domain-anda.com"`) agar
-canonical URL dan gambar preview link (og:image) memakai alamat lengkap.
-
-## Catatan
-
-- Form Contact tidak butuh server: "Send Message" membuka aplikasi email pengunjung ke aji26866a@gmail.com.
-- Di HP, menu ada di bawah layar (ikon Home, Works, Services, Contact, seperti Instagram); di laptop tetap di kanan atas.
-  Keduanya di `src/components/SiteHeader.astro`.
-- Tombol WhatsApp muncul otomatis setelah nomor diisi di `src/data/site.ts` (`whatsapp: "62..."`).
-- Pirichain (deck, explainer, post) ada di /design/pirichain/.
-- Warna teks abu-abu dan link sedikit digelapkan dari Figma (`#8695a4` → `#687684`,
-  `#00a8cc` → `#007a99`) agar kontras teks lolos standar WCAG AA. Nilai Figma asli ada di komentar `tokens.css`.
+Working notes in Indonesian: [docs/PANDUAN.md](docs/PANDUAN.md)

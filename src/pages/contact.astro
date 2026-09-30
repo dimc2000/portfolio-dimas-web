@@ -14,8 +14,11 @@ const wa = whatsappLink();
       <h1 class="page-title">Contact</h1>
       <p class="contact-intro">Interested in freelance, contract or full-time collaboration? Let's talk.</p>
       <div class="contact">
-        <!-- Tanpa server: tombol membuka aplikasi email pengunjung dengan pesan yang sudah terisi -->
-        <form class="form" data-email={site.email}>
+        <!-- Netlify Forms: pesan tersimpan di Netlify dan dikirim ke email Dimas (tanpa server sendiri).
+             Kalau pengiriman gagal, aplikasi email pengunjung dibuka dengan pesan yang sudah terisi. -->
+        <form class="form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" data-email={site.email}>
+          <input type="hidden" name="form-name" value="contact" />
+          <p hidden><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
           <div class="field">
             <label for="name">Name</label>
             <input id="name" name="name" type="text" autocomplete="name" placeholder="Your name" required />
@@ -29,7 +32,7 @@ const wa = whatsappLink();
             <textarea id="message" name="message" placeholder="Tell me about the project or role" required></textarea>
           </div>
           <button class="btn" type="submit">Send Message</button>
-          <p class="form__note" role="status">Your email app will open with this message ready to send.</p>
+          <p class="form__note" role="status"></p>
         </form>
         <div class="direct">
           <div class="direct__item">
@@ -54,14 +57,41 @@ const wa = whatsappLink();
 
 <script>
   const form = document.querySelector<HTMLFormElement>(".form");
-  form?.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const field = (n: string) => (form.elements.namedItem(n) as HTMLInputElement).value.trim();
+  const note = form?.querySelector<HTMLElement>(".form__note");
+  const button = form?.querySelector<HTMLButtonElement>("button[type=submit]");
+
+  // Cadangan: buka aplikasi email pengunjung dengan pesan yang sudah terisi
+  const openEmailApp = (f: HTMLFormElement) => {
+    const field = (n: string) => (f.elements.namedItem(n) as HTMLInputElement).value.trim();
     const name = field("name");
     const from = field("email");
     const subject = encodeURIComponent("Project inquiry" + (name ? " from " + name : ""));
     const body = encodeURIComponent(field("message") + "\n\n" + name + (from ? " <" + from + ">" : ""));
-    window.location.href = `mailto:${form.dataset.email}?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:${f.dataset.email}?subject=${subject}&body=${body}`;
+  };
+
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!note || !button) return;
+    button.disabled = true;
+    button.textContent = "Sending…";
+    note.textContent = "";
+    note.classList.remove("is-sent");
+    try {
+      const body = new URLSearchParams();
+      new FormData(form).forEach((value, key) => body.append(key, String(value)));
+      const res = await fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body });
+      if (!res.ok) throw new Error(String(res.status));
+      form.reset();
+      note.textContent = "Thanks! Your message is sent. I'll get back to you soon.";
+      note.classList.add("is-sent");
+    } catch {
+      note.textContent = "Couldn't send it here, so your email app will open with the message ready.";
+      openEmailApp(form);
+    } finally {
+      button.disabled = false;
+      button.textContent = "Send Message";
+    }
   });
 </script>
 
@@ -73,6 +103,9 @@ const wa = whatsappLink();
 
   .form { flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
   .form__note { font-size: 14px; line-height: 20px; color: var(--c-muted); }
+  .form__note:empty { margin-top: -16px; } /* tetap ada di DOM agar pesan status dibacakan pembaca layar */
+  .form__note.is-sent { font-size: 16px; line-height: 24px; font-weight: 500; color: var(--c-text); }
+  .form .btn:disabled { opacity: 0.7; cursor: progress; }
   .field { align-self: stretch; display: flex; flex-direction: column; gap: 8px; }
   .field label { font-size: 14px; line-height: 20px; font-weight: 500; }
   .field input,

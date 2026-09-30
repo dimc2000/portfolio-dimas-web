@@ -12,7 +12,7 @@
   --c-text: #21243d;
   --c-primary: #ff6464;        /* tombol, menu aktif, tanda "pena merah" di bukti */
   --c-primary-ink: #c43d3d;    /* merah untuk TEKS kecil (kontras ≥ 4.5:1 di latar putih & biru muda) */
-  --c-muted: #687684;          /* teks abu-abu (Figma #8695a4, digelapkan agar kontras ≥ 4.5:1) */
+  --c-muted: #627080;          /* teks abu-abu (Figma #8695a4, digelapkan agar kontras ≥ 4.5:1 di latar putih & biru muda) */
   --c-link: #007a99;           /* link (Figma #00a8cc, digelapkan agar kontras ≥ 4.5:1) */
   --c-link-bright: #00a8cc;    /* aksen biru untuk garis & ikon, bukan teks */
   --c-soft: #edf7fa;           /* latar biru muda (pita/section) */

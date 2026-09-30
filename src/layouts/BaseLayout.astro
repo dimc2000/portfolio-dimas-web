@@ -17,7 +17,8 @@ interface Props {
 
 // Tanpa gambar sendiri → kartu preview default (public/og.jpg, dibuat oleh source-files/scripts/make-og-image.py)
 const { title, description, ogImage = "/og.jpg", noindex = false } = Astro.props;
-const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
+// Halaman noindex (404, halaman yang belum siap) tidak diberi canonical
+const canonical = Astro.site && !noindex ? new URL(Astro.url.pathname, Astro.site).href : undefined;
 const ogImageUrl = ogImage && Astro.site ? new URL(ogImage, Astro.site).href : ogImage;
 ---
 
