@@ -2,7 +2,7 @@
 
 Source code of my portfolio website. I'm a creative developer: I make videos, design and websites that bring in customers, and build the automation and dashboards that run behind them.
 
-**Live site:** [dimas-aji-samudra.netlify.app](https://dimas-aji-samudra.netlify.app)
+**Live site:** [dimas-aji-samudra.pages.dev](https://dimas-aji-samudra.pages.dev)
 
 ![Home page on desktop (light theme) and on a phone (dark theme)](docs/preview.jpg)
 
@@ -14,7 +14,7 @@ Source code of my portfolio website. I'm a creative developer: I make videos, de
 - **Fast by default.** Pages are static HTML with no client-side framework. The only JavaScript is a few small inline scripts. Images are served responsive in WebP/JPG, videos load only when played, and the font is self-hosted.
 - **Accessible.** The markup is semantic, focus styles are visible, reduced motion is respected, and colour contrast is checked with axe-core.
 - **Search-ready.** Every page has a canonical URL and an Open Graph preview image. The site includes a sitemap, `robots.txt` and 301 redirects from old URLs.
-- **No backend to maintain.** The contact form runs on Netlify Forms. If a message can't be sent there, it falls back to the visitor's email app.
+- **No backend to maintain.** The contact form sends through FormSubmit. If a message can't be sent there, it falls back to the visitor's email app.
 
 ## Tech stack
 
@@ -22,7 +22,8 @@ Source code of my portfolio website. I'm a creative developer: I make videos, de
 | --- | --- |
 | Site | [Astro 7](https://astro.build), TypeScript, plain CSS with design tokens |
 | Images | `astro:assets` + sharp (responsive sizes, WebP) |
-| Hosting | Netlify (static hosting, Forms, headers and redirects) |
+| Hosting | Cloudflare Pages (static hosting, headers and redirects), deployed from this repo |
+| Contact form | FormSubmit, with an email-app fallback |
 | Media scripts | Python, Pillow, ffmpeg |
 
 ## Project structure
@@ -35,7 +36,7 @@ src/
 ├─ data/          Site info, projects, services and design cases (edit content here)
 ├─ styles/        Design tokens and global styles
 └─ assets/        Optimised images and videos
-public/           Static files, _headers, _redirects, robots.txt
+public/           Static files, _headers and _redirects
 source-files/
 └─ scripts/       Media pipeline: redaction, video compression, profile and preview images
 docs/             Screenshots and the working guide (Indonesian)
@@ -55,10 +56,7 @@ npm run preview   # serve the built site
 
 ## Deploy
 
-```bash
-npm run build
-netlify deploy --prod --dir dist
-```
+Every push to `main` is built and published by Cloudflare Pages (build command `npm run build`, output folder `dist`). The Node.js version comes from `.node-version`.
 
 ## Privacy
 
@@ -71,6 +69,6 @@ The code is public for reference. The images, videos and client work shown on th
 
 ## Contact
 
-[Contact page](https://dimas-aji-samudra.netlify.app/contact/) · [LinkedIn](https://www.linkedin.com/in/m-dimas-aji-samudra-1143a223b/) · [Behance](https://www.behance.net/dimc4)
+[Contact page](https://dimas-aji-samudra.pages.dev/contact/) · [LinkedIn](https://www.linkedin.com/in/m-dimas-aji-samudra-1143a223b/) · [Behance](https://www.behance.net/dimc4)
 
 Working notes in Indonesian: [docs/PANDUAN.md](docs/PANDUAN.md)

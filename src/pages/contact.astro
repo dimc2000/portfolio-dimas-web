@@ -14,11 +14,13 @@ const wa = whatsappLink();
       <h1 class="page-title">Contact</h1>
       <p class="contact-intro">Interested in freelance, contract or full-time collaboration? Let's talk.</p>
       <div class="contact">
-        <!-- Netlify Forms: pesan tersimpan di Netlify dan dikirim ke email Dimas (tanpa server sendiri).
+        <!-- FormSubmit (gratis, tanpa server): pesan dikirim ke email Dimas. Pesan pertama dari alamat situs baru
+             memicu email aktivasi dari FormSubmit yang harus diklik sekali.
              Kalau pengiriman gagal, aplikasi email pengunjung dibuka dengan pesan yang sudah terisi. -->
-        <form class="form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" data-email={site.email}>
-          <input type="hidden" name="form-name" value="contact" />
-          <p hidden><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+        <form class="form" method="POST" action={`https://formsubmit.co/${site.email}`} data-email={site.email}>
+          <input type="hidden" name="_subject" value="New message from your portfolio" />
+          <input type="hidden" name="_template" value="table" />
+          <p hidden><label>Leave this empty <input name="_honey" tabindex="-1" autocomplete="off" /></label></p>
           <div class="field">
             <label for="name">Name</label>
             <input id="name" name="name" type="text" autocomplete="name" placeholder="Your name" required />
@@ -78,10 +80,16 @@ const wa = whatsappLink();
     note.textContent = "";
     note.classList.remove("is-sent");
     try {
-      const body = new URLSearchParams();
-      new FormData(form).forEach((value, key) => body.append(key, String(value)));
-      const res = await fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body });
-      if (!res.ok) throw new Error(String(res.status));
+      const data: Record<string, string> = {};
+      new FormData(form).forEach((value, key) => (data[key] = String(value)));
+      const res = await fetch(`https://formsubmit.co/ajax/${form.dataset.email}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(data),
+      });
+      // FormSubmit menjawab { success: "true" }; sebelum diaktifkan jawabannya success "false"
+      const result = await res.json().catch(() => ({}));
+      if (!res.ok || String(result.success) !== "true") throw new Error(result.message ?? String(res.status));
       form.reset();
       note.textContent = "Thanks! Your message is sent. I'll get back to you soon.";
       note.classList.add("is-sent");

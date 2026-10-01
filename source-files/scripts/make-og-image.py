@@ -4,6 +4,7 @@ Dipakai halaman yang tidak punya gambar sendiri (Home, Works, Services, Contact,
 
     python source-files/scripts/make-og-image.py
 """
+import re
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
@@ -11,6 +12,8 @@ from PIL import Image, ImageDraw, ImageFont
 ROOT = Path(__file__).resolve().parents[2]
 PHOTO = ROOT / "src" / "assets" / "images" / "profile-photo.webp"
 OUT = ROOT / "public" / "og.jpg"
+# Alamat situs dari astro.config.mjs (`site: "https://..."`), ditulis tanpa https://
+SITE_HOST = re.search(r'site:\s*"https?://([^"/]+)', (ROOT / "astro.config.mjs").read_text(encoding="utf-8")).group(1)
 FONTS = Path(r"C:\Windows\Fonts")
 
 W, H = 1200, 630
@@ -68,7 +71,7 @@ for line in wrap(d, "I make what your customers see, and build what runs behind 
 d.text((x, y + 16), "Video  ·  Design  ·  Web  ·  Automation", font=font(False, 26), fill=MUTED)
 
 d.rectangle((x, 500, x + 96, 506), fill=PRIMARY)
-d.text((x, 522), "dimas-aji-samudra.netlify.app", font=font(False, 26), fill=LINK)
+d.text((x, 522), SITE_HOST, font=font(False, 26), fill=LINK)
 
 im.save(OUT, quality=88, optimize=True, progressive=True)
 print("wrote", OUT, OUT.stat().st_size // 1024, "KB")

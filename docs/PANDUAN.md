@@ -18,9 +18,17 @@ npm run preview    # cek hasil build di http://localhost:4321
 npm run check      # cek error TypeScript/Astro
 ```
 
-> `dist/` tidak bisa dibuka dengan double-click (file://). Pakai `npm run preview`
-> atau upload isi `dist/` ke hosting (Netlify, Vercel, Cloudflare Pages, GitHub Pages,
-> atau shared hosting biasa).
+> `dist/` tidak bisa dibuka dengan double-click (file://). Pakai `npm run preview`.
+
+## Terbit (deploy)
+
+Situs di-hosting di **Cloudflare Pages** (gratis) dan tersambung ke repo GitHub
+`dimc2000/portfolio-dimas-web`. Setiap `git push` ke branch `main` otomatis di-build
+(`npm run build`, folder `dist`) dan terbit di https://dimas-aji-samudra.pages.dev.
+Versi Node diatur di `.node-version`. Alamat situs diatur di `astro.config.mjs` (`site`).
+
+Alamat lama `dimas-aji-samudra.netlify.app` dialihkan ke alamat baru mulai 29 Oktober 2026, saat kuota Netlify reset
+(kuota deploy Netlify gratis hanya 20 kali per bulan, jadi Netlify tidak dipakai lagi untuk terbit).
 
 ## Struktur folder
 
@@ -31,8 +39,8 @@ portfolio-dimas-web/
 │  ├─ favicon.svg
 │  ├─ og.jpg                 Gambar preview link default (source-files/scripts/make-og-image.py)
 │  ├─ theme/                 Latar bintang tema gelap (source-files/scripts/make-star-background.py)
-│  ├─ _redirects             Redirect alamat lama v1 (works.html → /works/, dst.) — Netlify
-│  └─ _headers               Cache untuk file /_astro/ — Netlify
+│  ├─ _redirects             Redirect alamat lama v1 (works.html → /works/, dst.) — Cloudflare Pages / Netlify
+│  └─ _headers               Header keamanan + cache untuk file /_astro/ — Cloudflare Pages / Netlify
 ├─ src/
 │  ├─ pages/                 Satu file = satu halaman (URL mengikuti nama file)
 │  │  ├─ index.astro         /
@@ -123,7 +131,8 @@ canonical URL dan gambar preview link (og:image) memakai alamat lengkap.
 
 ## Catatan
 
-- Form Contact memakai Netlify Forms (tanpa server sendiri): pesan tersimpan di Netlify dan dikirim ke email Dimas.
+- Form Contact memakai FormSubmit (gratis, tanpa server sendiri): pesan dikirim ke email Dimas.
+  Pesan pertama dari alamat situs baru memicu email aktivasi dari FormSubmit, klik sekali.
   Kalau gagal terkirim, aplikasi email pengunjung terbuka dengan pesan yang sudah terisi.
 - Di HP, menu ada di bawah layar (ikon Home, Works, Services, Contact, seperti Instagram); di laptop tetap di kanan atas.
   Keduanya di `src/components/SiteHeader.astro`.
