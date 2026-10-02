@@ -1,0 +1,54 @@
+---
+import ProjectLayout from "../../layouts/ProjectLayout.astro";
+import Row from "../../components/Row.astro";
+import WorkflowDiagram from "../../components/WorkflowDiagram.astro";
+
+// Dipasang dari template publik n8n #6941 (Franz) — kredit wajib tetap ada di baris "Credits".
+// Setelah Dimas menjalankannya dengan akunnya sendiri, tambahkan screenshot (canvas, eksekusi, sheet, email).
+const template = "https://n8n.io/workflows/6941";
+---
+
+<ProjectLayout
+  name="Lead Follow-up Automation"
+  description="An n8n workflow that replies to every new lead, sorts it with AI, books demos and sends timed follow-up emails, with every lead tracked in Google Sheets."
+  year={2026}
+  tags={["Automation", "AI", "Google Workspace"]}
+  facts={[
+    { label: "Role", value: "Setup and adaptation" },
+    { label: "Tools", value: "n8n, OpenAI, Gmail, Google Calendar, Google Sheets" },
+    { label: "Based on", value: "n8n community template" },
+    { label: "Status", value: "Set up per business" },
+  ]}
+  next={{ href: "/projects/content-workflow-automation/", name: "Content Workflow Automation" }}
+>
+  <div slot="hero" class="container project__hero">
+    <WorkflowDiagram flow="lead" />
+  </div>
+
+  <Row label="Overview">
+    <p class="lead">Leads go cold when replies are slow or follow-ups are forgotten. This workflow replies, sorts and follows up on its own, so the sales team spends time on leads who are ready to talk.</p>
+  </Row>
+
+  <Row label="How it works">
+    <ul class="bullets">
+      <li>A form captures each new lead and saves it to Google Sheets.</li>
+      <li>AI answers the lead's question by email, or flags it for a person.</li>
+      <li>AI looks up the lead's company, then sorts the lead as demo-ready, nurture or drop, based on your ideal-customer rules.</li>
+      <li>Demo-ready leads get a meeting in Google Calendar.</li>
+      <li>Nurture leads get follow-up emails a day apart, then a demo invite.</li>
+      <li>Every status is written back to the sheet.</li>
+    </ul>
+  </Row>
+
+  <Row label="Technology">
+    <div class="chips"><span class="chip">n8n</span><span class="chip">OpenAI</span><span class="chip">Gmail</span><span class="chip">Google Calendar</span><span class="chip">Google Sheets</span></div>
+  </Row>
+
+  <Row label="My Role">
+    <p>I set up the workflow in n8n and adapt it to each business: the form, the ideal-customer rules, the email copy and the connected Google accounts.</p>
+  </Row>
+
+  <Row label="Credits">
+    <p>Based on the n8n community template <a class="link" href={template} target="_blank" rel="noopener">“Lead generation and qualification with GPT-4o, Google Workspace, and automated follow-up”</a> by Franz.</p>
+  </Row>
+</ProjectLayout>

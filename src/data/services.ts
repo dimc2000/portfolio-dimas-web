@@ -26,7 +26,7 @@ export const services: Service[] = [
     title: "Automation",
     line: "Stop repeating the same tasks.",
     tags: ["Follow-ups", "Reports", "AI drafts"],
-    href: "/projects/content-workflow-automation/",
+    href: "/projects/lead-follow-up-automation/",
   },
   {
     title: "Dashboards & Apps",

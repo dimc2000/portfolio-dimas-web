@@ -20,7 +20,7 @@ const Tag = work.href ? "a" : "div";
     ) : work.image ? (
       <Image src={work.image} alt="" widths={[300, 520, 760]} sizes="(max-width: 767px) calc(100vw - 40px), 246px" />
     ) : (
-      work.visual === "workflow" && <WorkflowDiagram compact />
+      work.visual && <WorkflowDiagram compact flow={work.visual} />
     )}
   </div>
   <div class="work__text">

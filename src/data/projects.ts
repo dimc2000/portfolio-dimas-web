@@ -17,7 +17,8 @@ export type Work = {
   image?: ImageMetadata;
   /** Tiga gambar berdampingan (menggantikan `image`) */
   images?: ImageMetadata[];
-  visual?: "workflow";
+  /** Diagram alur otomasi (lihat WorkflowDiagram) */
+  visual?: "content" | "lead";
   /** Ajakan klik di bawah teks, untuk kartu yang berisi beberapa proyek */
   cta?: string;
 };
@@ -33,13 +34,22 @@ export const works: Work[] = [
     image: climateThumb,
   },
   {
+    name: "Lead Follow-up Automation",
+    tags: ["Automation", "AI", "Google Workspace"],
+    problem: "Leads go cold when replies are slow and follow-ups are forgotten",
+    solution:
+      "An n8n workflow that replies to every new lead, sorts it with AI, books demos and sends timed follow-ups, all tracked in Google Sheets. Set up from an n8n template and adapted for each business.",
+    href: "/projects/lead-follow-up-automation/",
+    visual: "lead",
+  },
+  {
     name: "Content Workflow Automation",
     tags: ["Automation", "AI", "In progress"],
     problem: "Regular content took hours, and every claim needed checking",
     solution:
       "An n8n and Gemini workflow that drafts content, flags risky claims and waits for human approval before anything is posted. In progress.",
     href: "/projects/content-workflow-automation/",
-    visual: "workflow",
+    visual: "content",
   },
 ];
 

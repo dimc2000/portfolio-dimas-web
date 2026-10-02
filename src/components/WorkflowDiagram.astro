@@ -1,17 +1,31 @@
 ---
-// Alur Content Workflow Automation. `compact` = versi kecil untuk kartu karya.
-interface Props { compact?: boolean }
-const { compact = false } = Astro.props;
+// Alur workflow otomasi (6 langkah). `compact` = versi kecil untuk kartu karya.
+//   content: Content Workflow Automation — sama dengan workflow asli di "2 content-engine-n8n"
+//   lead:    Lead Follow-up Automation — template n8n #6941 (Franz), lihat halaman proyeknya
+export type Flow = "content" | "lead";
+interface Props { compact?: boolean; flow?: Flow }
+const { compact = false, flow = "content" } = Astro.props;
 
-// Sama dengan workflow asli di "2 content-engine-n8n" (Obsidian → Gemini → cek klaim → Telegram → Ready)
-const steps = [
-  { title: "Pick idea", tool: "Obsidian", text: "Takes the next idea marked as selected." },
-  { title: "Draft", tool: "Gemini API", text: "Writes the first version." },
-  { title: "Rules check", tool: "n8n", text: "Flags risky claims." },
-  { title: "Human approval", tool: "Telegram", text: "Nothing moves on without a sign-off.", gate: true },
-  { title: "Ready", tool: "Obsidian", text: "Approved posts are saved, ready to go." },
-  { title: "Publish", tool: "Person", text: "Posted by hand after approval." },
-];
+type Step = { title: string; tool: string; text: string; gate?: boolean };
+const flows: Record<Flow, Step[]> = {
+  content: [
+    { title: "Pick idea", tool: "Obsidian", text: "Takes the next idea marked as selected." },
+    { title: "Draft", tool: "Gemini API", text: "Writes the first version." },
+    { title: "Rules check", tool: "n8n", text: "Flags risky claims." },
+    { title: "Human approval", tool: "Telegram", text: "Nothing moves on without a sign-off.", gate: true },
+    { title: "Ready", tool: "Obsidian", text: "Approved posts are saved, ready to go." },
+    { title: "Publish", tool: "Person", text: "Posted by hand after approval." },
+  ],
+  lead: [
+    { title: "New lead", tool: "Form + Google Sheets", text: "Every form entry is saved to a sheet." },
+    { title: "Instant reply", tool: "AI + Gmail", text: "Answers the question, or flags it for a person." },
+    { title: "Research", tool: "AI", text: "Looks up the lead's company." },
+    { title: "Sort", tool: "AI", text: "Demo-ready, nurture or drop, by your rules.", gate: true },
+    { title: "Follow up", tool: "Gmail + Calendar", text: "Books demos, or sends emails a day apart." },
+    { title: "Track", tool: "Google Sheets", text: "Every status is written back." },
+  ],
+};
+const steps = flows[flow];
 ---
 
 {compact ? (
