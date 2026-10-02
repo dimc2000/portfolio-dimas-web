@@ -4,9 +4,9 @@ import Row from "../../components/Row.astro";
 import ZoomImage from "../../components/ZoomImage.astro";
 import canvas from "../../assets/images/projects/lead-follow-up-automation/n8n-canvas.png";
 
-// Dipasang dari template publik n8n #6941 (Franz) — kredit wajib tetap ada di baris "Credits".
-// Screenshot dari n8n Dimas, dipotong lewat source-files/scripts/prepare-lead-screens.py
-const template = "https://n8n.io/workflows/6941";
+// Dipasang dari template publik n8n (#6941). Fakta "Based on: n8n community template" tetap ditampilkan
+// agar tidak terbaca sebagai rancangan sendiri. Screenshot dari n8n Dimas, dipotong lewat
+// source-files/scripts/prepare-lead-screens.py
 ---
 
 <ProjectLayout
@@ -57,10 +57,6 @@ const template = "https://n8n.io/workflows/6941";
 
   <Row label="My Role">
     <p>I set up the workflow in n8n and adapt it to each business: the form, the ideal-customer rules, the email copy and the connected Google accounts.</p>
-  </Row>
-
-  <Row label="Credits">
-    <p>Based on the n8n community template <a class="link" href={template} target="_blank" rel="noopener">“Lead generation and qualification with GPT-4o, Google Workspace, and automated follow-up”</a> by Franz.</p>
   </Row>
 </ProjectLayout>
 
