@@ -4,6 +4,7 @@ import climateThumb from "../assets/images/projects/climate-data-platform/thumb.
 import heyxiPoster from "../assets/images/design/heyxi/ad-eyeshadow-pen-garden-poster.jpg";
 import ragamPost from "../assets/images/design/ragam-rubber/post-ferrule-ptfe.jpg";
 import piriDeck from "../assets/images/design/pirichain/deck-01.jpg";
+import leadThumb from "../assets/images/projects/lead-follow-up-automation/thumb.png";
 import { designCases } from "./design";
 
 export type Work = {
@@ -17,8 +18,7 @@ export type Work = {
   image?: ImageMetadata;
   /** Tiga gambar berdampingan (menggantikan `image`) */
   images?: ImageMetadata[];
-  /** Diagram alur otomasi (lihat WorkflowDiagram) */
-  visual?: "content" | "lead";
+  visual?: "workflow";
   /** Ajakan klik di bawah teks, untuk kartu yang berisi beberapa proyek */
   cta?: string;
 };
@@ -40,7 +40,7 @@ export const works: Work[] = [
     solution:
       "An n8n workflow that replies to every new lead, sorts it with AI, books demos and sends timed follow-ups, all tracked in Google Sheets. Set up from an n8n template and adapted for each business.",
     href: "/projects/lead-follow-up-automation/",
-    visual: "lead",
+    image: leadThumb,
   },
   {
     name: "Content Workflow Automation",
@@ -49,7 +49,7 @@ export const works: Work[] = [
     solution:
       "An n8n and Gemini workflow that drafts content, flags risky claims and waits for human approval before anything is posted. In progress.",
     href: "/projects/content-workflow-automation/",
-    visual: "content",
+    visual: "workflow",
   },
 ];
 
