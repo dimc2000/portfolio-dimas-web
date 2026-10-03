@@ -17,6 +17,19 @@
   font-weight: 700;
 }
 .meta__tags { font-size: 18px; line-height: 24px; color: var(--c-muted); }
+.project__subtitle { margin-top: -8px; font-size: 22px; line-height: 32px; font-weight: 500; text-wrap: balance; }
+.project__pitch {
+  max-width: 40em;
+  padding-left: 16px;
+  border-left: 3px solid var(--c-primary);
+  font-size: 18px;
+  line-height: 28px;
+  text-wrap: pretty;
+}
+.project__cta { margin-top: 48px; }
+.project__cta .talk-box__text { margin: 0; }
+.project__cta-text { margin-top: -8px; font-size: 18px; line-height: 28px; color: var(--c-muted); max-width: 36em; }
+.project__cta + .next { border-top: 0; }
 
 .project__hero { margin-top: 32px; }
 
@@ -82,6 +95,11 @@
   .project { padding: 16px 0 8px; }
   .badge { font-size: 14px; }
   .meta__tags { font-size: 15px; }
+  .project__subtitle { margin-top: -6px; font-size: 18px; line-height: 27px; }
+  .project__pitch { font-size: 16px; line-height: 25px; }
+  .project__cta { margin-top: 36px; }
+  .project__cta .talk-box__text { font-size: 22px; line-height: 30px; }
+  .project__cta-text { font-size: 16px; line-height: 25px; }
   .project__hero { margin-top: 24px; }
   .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 16px; padding: 24px 0 28px; }
   .facts dd { font-size: 16px; line-height: 24px; }

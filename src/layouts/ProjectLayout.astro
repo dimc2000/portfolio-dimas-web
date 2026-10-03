@@ -2,7 +2,7 @@
 /*
   Layout halaman detail proyek.
   Slot:
-    hero    — gambar/visual utama di bawah judul
+    hero    — gambar/visual utama di bawah judul (subtitle/pitch opsional tampil di atasnya)
     (utama) — baris Overview, Problem, Solution, ... (pakai <Row>)
     after   — bagian lebar setelah baris, misalnya "Evidence"
 */
@@ -20,9 +20,15 @@ interface Props {
   /** Default: kembali ke Works */
   back?: { href: string; label: string };
   ogImage?: string;
+  /** Satu kalimat di bawah judul */
+  subtitle?: string;
+  /** Kalimat nilai jual di bawah tag */
+  pitch?: string;
+  /** Kotak ajakan di akhir halaman (menggantikan tombol Let's Talk di baris "Next project") */
+  cta?: { title: string; text: string };
 }
 
-const { name, description, year, tags, facts, next, ogImage, back = { href: "/works/", label: "Back to works" } } = Astro.props;
+const { name, description, year, tags, facts, next, ogImage, subtitle, pitch, cta, back = { href: "/works/", label: "Back to works" } } = Astro.props;
 ---
 
 <BaseLayout title={`${name} — Dimas Aji Samudra`} description={description} ogImage={ogImage}>
@@ -30,10 +36,12 @@ const { name, description, year, tags, facts, next, ogImage, back = { href: "/wo
     <header class="container project__head">
       <a class="link back" href={back.href}>{back.label}</a>
       <h1 class="page-title">{name}</h1>
+      {subtitle && <p class="project__subtitle">{subtitle}</p>}
       <div class="meta">
         <span class="badge">{year}</span>
         <span class="meta__tags">{tags.join(" · ")}</span>
       </div>
+      {pitch && <p class="project__pitch">{pitch}</p>}
     </header>
 
     <slot name="hero" />
@@ -55,9 +63,16 @@ const { name, description, year, tags, facts, next, ogImage, back = { href: "/wo
     <slot name="after" />
 
     <div class="container">
+      {cta && (
+        <section class="talk-box project__cta" aria-labelledby="project-cta">
+          <h2 class="talk-box__text" id="project-cta">{cta.title}</h2>
+          <p class="project__cta-text">{cta.text}</p>
+          <a class="btn" href="/contact/">Let's Talk</a>
+        </section>
+      )}
       <nav class="next" aria-label="More projects">
         <a class="link" href={next.href}>Next project: {next.name}</a>
-        <a class="btn" href="/contact/">Let's Talk</a>
+        {!cta && <a class="btn" href="/contact/">Let's Talk</a>}
       </nav>
     </div>
   </article>

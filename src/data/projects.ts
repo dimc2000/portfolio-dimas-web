@@ -38,7 +38,7 @@ export const works: Work[] = [
     tags: ["Automation", "AI", "Google Workspace"],
     problem: "Leads go cold when replies are slow and follow-ups are forgotten",
     solution:
-      "An n8n workflow that replies to every new lead, sorts it with AI, books demos and sends timed follow-ups, all tracked in Google Sheets. Set up from an n8n template and adapted for each business.",
+      "An n8n workflow that replies to every new lead, sorts it with AI, books demos and sends timed follow-ups, all tracked in Google Sheets. Built from an n8n community workflow, ready to adapt to each business.",
     href: "/projects/lead-follow-up-automation/",
     image: leadThumb,
   },
